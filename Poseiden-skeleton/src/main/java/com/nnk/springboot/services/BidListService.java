@@ -1,33 +1,32 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.constants.Pagination;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Slf4j
 public class BidListService {
     @Autowired
+    final
     BidListRepository bidListRepository;
-    @Autowired
-    PaginationService paginationService;
 
-    public BidListService(BidListRepository bidListRepository, PaginationService paginationService) {
+    public BidListService(BidListRepository bidListRepository) {
         this.bidListRepository = bidListRepository;
-        this.paginationService = paginationService;
     }
 
     /**
      * Creates new bid.
      */
     public BidList saveBid(final BidList bidList) {
+
+        bidList.setCreationDate(LocalDateTime.now());
         return bidListRepository.save(bidList);
     }
 
@@ -46,10 +45,8 @@ public class BidListService {
     /**
      * Returns list of all bids.
      */
-    public Page<?> getBidList() {
-        return paginationService
-                .getPaginatedList(PageRequest.of(Pagination.DEFAULT_PAGE, Pagination.DEFAULT_SIZE),
-                                  bidListRepository.findAll());
+    public List<BidList> getBidList() {
+        return bidListRepository.findAll();
     }
 
     /**
@@ -61,6 +58,7 @@ public class BidListService {
      * @return updated bid object.
      */
     public BidList updateBid(final BidList bidList) {
+        bidList.setRevisionDate(LocalDateTime.now());
         return bidListRepository.save(bidList);
     }
 
