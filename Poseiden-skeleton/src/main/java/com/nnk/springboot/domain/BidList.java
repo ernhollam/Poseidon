@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class BidList {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    Integer       BidListId;
+    Integer       bidListId;
     @NotBlank(message = "Account is mandatory")
     String        account;
     @NotBlank(message = "Type is mandatory")
