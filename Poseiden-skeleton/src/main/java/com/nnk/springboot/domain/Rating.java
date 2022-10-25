@@ -1,12 +1,23 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "rating")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rating {
-    // TODO: Map columns in data table RATING with corresponding java fields
+    Integer id;
+    String  moodysRating;
+    String  sandPRating;
+    String  fitchRating;
+    Integer orderNumber;
 }
