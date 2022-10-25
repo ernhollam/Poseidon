@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
@@ -19,6 +18,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DynamicUpdate
 public class Trade {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     Integer       tradeId;
     String        account;
     String        type;
@@ -40,4 +41,9 @@ public class Trade {
     String        dealType;
     String        sourceListId;
     String        side;
+
+    public Trade(String account, String type) {
+        this.account = account;
+        this.type = type;
+    }
 }

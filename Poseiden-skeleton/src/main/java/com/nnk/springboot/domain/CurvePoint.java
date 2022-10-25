@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 
@@ -19,10 +18,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DynamicUpdate
 public class CurvePoint {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     Integer       id;
     Integer       curveId;
     LocalDateTime asOfDate;
     Double        term;
     Double        value;
     LocalDateTime creationDate;
+
+    public CurvePoint(Integer curveId, Double term, Double value) {
+        this.curveId = curveId;
+        this.term = term;
+        this.value = value;
+    }
 }

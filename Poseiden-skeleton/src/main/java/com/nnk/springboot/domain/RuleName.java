@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "rulename")
@@ -17,6 +16,8 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @DynamicUpdate
 public class RuleName {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     Integer id;
     String  name;
     String  description;
@@ -24,4 +25,13 @@ public class RuleName {
     String  template;
     String  sqlStr;
     String  sqlPart;
+
+    public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+        this.name = name;
+        this.description = description;
+        this.json = json;
+        this.template = template;
+        this.sqlStr = sqlStr;
+        this.sqlPart = sqlPart;
+    }
 }

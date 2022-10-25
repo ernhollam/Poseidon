@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "rating")
@@ -17,9 +16,18 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @DynamicUpdate
 public class Rating {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     Integer id;
     String  moodysRating;
     String  sandPRating;
     String  fitchRating;
     Integer orderNumber;
+
+    public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
+        this.moodysRating = moodysRating;
+        this.sandPRating = sandPRating;
+        this.fitchRating = fitchRating;
+        this.orderNumber = orderNumber;
+    }
 }

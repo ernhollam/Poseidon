@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
@@ -19,6 +18,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @DynamicUpdate
 public class BidList {
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     Integer       BidListId;
     @NotBlank(message = "Account is mandatory")
     String        account;
@@ -43,4 +44,10 @@ public class BidList {
     String        dealType;
     String        sourceListId;
     String        side;
+
+    public BidList(String account, String type, Double bidQuantity) {
+        this.account = account;
+        this.type = type;
+        this.bidQuantity = bidQuantity;
+    }
 }
