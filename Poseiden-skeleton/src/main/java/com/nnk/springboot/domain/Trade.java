@@ -23,10 +23,10 @@ public class Trade {
     Integer       tradeId;
     String        account;
     String        type;
-    Double        buyQuantity;
-    Double        sellQuantity;
-    Double        buyPrice;
-    Double        sellPrice;
+    double        buyQuantity;
+    double        sellQuantity;
+    double        buyPrice;
+    double        sellPrice;
     String        benchmark;
     LocalDateTime tradeDate;
     String        security;

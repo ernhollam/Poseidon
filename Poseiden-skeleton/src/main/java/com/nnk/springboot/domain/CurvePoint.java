@@ -23,11 +23,11 @@ public class CurvePoint {
     Integer       id;
     Integer       curveId;
     LocalDateTime asOfDate;
-    Double        term;
-    Double        value;
+    double        term;
+    double        value;
     LocalDateTime creationDate;
 
-    public CurvePoint(Integer curveId, Double term, Double value) {
+    public CurvePoint(Integer curveId, double term, double value) {
         this.curveId = curveId;
         this.term = term;
         this.value = value;

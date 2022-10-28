@@ -25,10 +25,10 @@ public class BidList {
     String        account;
     @NotBlank(message = "Type is mandatory")
     String        type;
-    Double        bidQuantity;
-    Double        askQuantity;
-    Double        bid;
-    Double        ask;
+    double        bidQuantity;
+    double        askQuantity;
+    double        bid;
+    double        ask;
     String        benchmark;
     LocalDateTime bidListDate;
     String        commentary;
@@ -45,7 +45,7 @@ public class BidList {
     String        sourceListId;
     String        side;
 
-    public BidList(String account, String type, Double bidQuantity) {
+    public BidList(String account, String type, double bidQuantity) {
         this.account = account;
         this.type = type;
         this.bidQuantity = bidQuantity;
