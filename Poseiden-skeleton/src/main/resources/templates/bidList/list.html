@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8"/>
     <title>Bid List</title>
-    <link rel="stylesheet" href="../../static/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
@@ -44,7 +44,7 @@
                 <td th:text="${bid.type}">Account type</td>
                 <td th:text="${bid.bidQuantity}">10.0</td>
                 <td class="text-center"><a th:href="@{/bidList/update/{id}(id=${bid.bidListId})}">Edit</a>&nbsp;|&nbsp;
-                    <a th:href=@{/bidList/delete/{id}(id=${bid.bidListId})}">Delete</a></td>
+                    <a th:href="@{/bidList/delete/{id}(id=${bid.bidListId})}">Delete</a></td>
             </tr>
             </tbody>
         </table>
