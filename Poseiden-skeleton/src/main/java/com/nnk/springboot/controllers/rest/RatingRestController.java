@@ -1,8 +1,8 @@
 package com.nnk.springboot.controllers.rest;
 
-import com.nnk.springboot.domain.CurvePoint;
+import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.exceptions.ResourceNotFoundException;
-import com.nnk.springboot.services.CurvePointService;
+import com.nnk.springboot.services.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
@@ -19,73 +19,73 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/curvePoint")
-public class CurvePointRestController {
+@RequestMapping("/rating")
+public class RatingRestController {
     @Autowired
-    private final CurvePointService service;
+    private final RatingService service;
 
-    private final String IDNotFoundMessage = "No bid found with id:";
+    private final String IDNotFoundMessage = "No rating found with id:";
 
     /**
      * Constructor.
      * @param service service layer
      */
-    public CurvePointRestController(CurvePointService service) {this.service = service;}
+    public RatingRestController(RatingService service) {this.service = service;}
 
     /**
-     * Returns all bids.
+     * Returns all ratings.
      */
     @GetMapping
-    public List<CurvePoint> getCurvePoints() {
-        return service.getCurvePointList();
+    public List<Rating> getRatings() {
+        return service.getRatings();
     }
 
     /**
-     * Returns a bid if it exists.
-     * @param id ID of bid to find
-     * @return a bid or throws ResourceNotFoundException
+     * Returns a rating if it exists.
+     * @param id ID of rating to find
+     * @return a rating or throws ResourceNotFoundException
      *
-     * @see com.nnk.springboot.domain.CurvePoint
+     * @see com.nnk.springboot.domain.Rating
      * @see com.nnk.springboot.exceptions.ResourceNotFoundException
      */
     @GetMapping("/{id}")
-    public CurvePoint getCurvePointByID(@PathVariable Integer id) {
+    public Rating getRatingByID(@PathVariable Integer id) {
         Assert.notNull(id, "ID must be provided.");
-        return service.getCurvePointById(id)
+        return service.getRatingById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(IDNotFoundMessage + id +"."));
     }
 
     /**
-     * Creates a curve point.
-     * @param curvePoint curve point to create.
-     * @return saved curvePoint.
+     * Creates a rating.
+     * @param rating Rating to create.
+     * @return saved rating.
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CurvePoint createCurvePoint(@RequestBody CurvePoint curvePoint) {
-        return service.saveCurvePoint(curvePoint);
+    public Rating createRating(@RequestBody Rating rating) {
+        return service.saveRating(rating);
     }
 
     /**
-     * Updates a curvePoint.
-     * @param curvePoint Curve point to update.
-     * @return updated curvePoint.
+     * Updates a rating.
+     * @param rating Rating to update.
+     * @return updated rating.
      */
     @PutMapping
-    public CurvePoint updateCurvePoint(@RequestBody CurvePoint curvePoint) {
-        return service.updateCurvePoint(curvePoint);
+    public Rating updateRating(@RequestBody Rating rating) {
+        return service.updateRating(rating);
     }
 
     /**
-     * Deletes a bid.
+     * Deletes a rating.
      *
      * @param id
-     *         ID of bid to delete.
+     *         ID of rating to delete.
      */
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteCurvePoint(@PathVariable Integer id) {
+    public void deleteRating(@PathVariable Integer id) {
         if (id == null) throw new ResourceNotFoundException(IDNotFoundMessage + id + ".");
-        service.deleteCurvePoint(id);
+        service.deleteRating(id);
     }
 }
