@@ -20,11 +20,17 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/bidList")
-public class BidController {
+public class BidRestController {
     @Autowired
-    private BidListService service;
+    private final BidListService service;
 
     private final String IDNotFoundMessage = "No bid found with id:";
+
+    /**
+     * Constructor.
+     * @param service service layer
+     */
+    public BidRestController(BidListService service) {this.service = service;}
 
     /**
      * Returns all bids.
@@ -34,6 +40,14 @@ public class BidController {
         return service.getBidList();
     }
 
+    /**
+     * Returns a bid if it exists.
+     * @param id ID of bid to find
+     * @return a bid or throws ResourceNotFoundException
+     *
+     * @see com.nnk.springboot.domain.BidList
+     * @see com.nnk.springboot.exceptions.ResourceNotFoundException
+     */
     @GetMapping("/{id}")
     public BidList getBidByID(@PathVariable Integer id) {
         Assert.notNull(id, "ID must be provided.");
@@ -41,17 +55,33 @@ public class BidController {
                 .orElseThrow(() -> new ResourceNotFoundException(IDNotFoundMessage + id +"."));
     }
 
+    /**
+     * Creates a bid.
+     * @param bid Bid to create.
+     * @return saved bid.
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BidList createBid(@RequestBody BidList bid) {
         return service.saveBid(bid);
     }
 
+    /**
+     * Updates a bid.
+     * @param bid Bid to update.
+     * @return updated bid.
+     */
     @PutMapping
     public BidList updateBid(@RequestBody BidList bid) {
         return service.updateBid(bid);
     }
 
+    /**
+     * Deletes a bid.
+     *
+     * @param id
+     *         ID of bid to delete.
+     */
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBid(@PathVariable Integer id) {
