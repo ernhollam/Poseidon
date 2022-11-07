@@ -49,7 +49,7 @@ public class TradeRestController {
      * @see com.nnk.springboot.exceptions.ResourceNotFoundException
      */
     @GetMapping("/{id}")
-    public Trade getRuleByID(@PathVariable Integer id) {
+    public Trade getTradeByID(@PathVariable Integer id) {
         Assert.notNull(id, "ID must be provided.");
         return service.getTradeById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(IDNotFoundMessage + id +"."));
@@ -62,7 +62,7 @@ public class TradeRestController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Trade createRule(@RequestBody Trade trade) {
+    public Trade createTrade(@RequestBody Trade trade) {
         return service.saveTrade(trade);
     }
 
@@ -72,7 +72,7 @@ public class TradeRestController {
      * @return updated trade.
      */
     @PutMapping
-    public Trade updateRule(@RequestBody Trade trade) {
+    public Trade updateTrade(@RequestBody Trade trade) {
         return service.updateTrade(trade);
     }
 
@@ -84,7 +84,7 @@ public class TradeRestController {
      */
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteRule(@PathVariable Integer id) {
+    public void deleteTrade(@PathVariable Integer id) {
         if (id == null) throw new ResourceNotFoundException(IDNotFoundMessage + id + ".");
         service.deleteTrade(id);
     }

@@ -35,9 +35,9 @@ public class CurvePointService {
      * Gets a curve point.
      *
      * @param id
-     *         ID of curve point list to find
+     *         ID of curve point to find
      *
-     * @return Optional curve point list object.
+     * @return Optional curve point object.
      */
     public Optional<CurvePoint> getCurvePointById(final Integer id) {
         Assert.notNull(id, "ID must not be null.");
@@ -47,7 +47,7 @@ public class CurvePointService {
     /**
      * Returns list of all bids.
      */
-    public List<CurvePoint> getCurvePointList() {
+    public List<CurvePoint> getCurvePoints() {
         return curvePointRepository.findAll();
     }
 

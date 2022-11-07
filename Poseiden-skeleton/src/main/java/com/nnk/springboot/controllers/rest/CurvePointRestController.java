@@ -37,7 +37,7 @@ public class CurvePointRestController {
      */
     @GetMapping
     public List<CurvePoint> getCurvePoints() {
-        return service.getCurvePointList();
+        return service.getCurvePoints();
     }
 
     /**

@@ -34,9 +34,9 @@ public class RatingService {
      * Gets a rating.
      *
      * @param id
-     *         ID of rating list to find
+     *         ID of rating to find
      *
-     * @return Optional rating list object.
+     * @return Optional rating object.
      */
     public Optional<Rating> getRatingById(final Integer id) {
         Assert.notNull(id, "ID must not be null.");

@@ -33,9 +33,9 @@ public class RuleService {
      * Gets a rule.
      *
      * @param id
-     *         ID of rule list to find
+     *         ID of rule to find
      *
-     * @return Optional rule list object.
+     * @return Optional rule object.
      */
     public Optional<RuleName> getRuleById(final Integer id) {
         Assert.notNull(id, "ID must not be null.");
