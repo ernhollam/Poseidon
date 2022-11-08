@@ -1,6 +1,6 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.Bid;
 import com.nnk.springboot.domain.viewmodel.BidViewModel;
 import com.nnk.springboot.repositories.BidRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -35,16 +35,16 @@ public class BidServiceTest {
     @MockBean
     ModelMapper modelMapper;
 
-    private BidList      bidList;
+    private Bid          bid;
     private BidViewModel bidViewModel;
 
     @BeforeAll
     void init() {
         LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         LocalDateTime now       = LocalDateTime.now();
-        bidList = new BidList(1, "bid list account", "bid type", 3, 1, 1, 1, "benchmark", now, "comment",
-                              "security", "status", "trader", "book", "creation name", yesterday,
-                              "revision name", now, "deal", "deal type", "source 1", "side");
+        bid = new Bid(1, "bid list account", "bid type", 3, 1, 1, 1, "benchmark", now, "comment",
+                      "security", "status", "trader", "book", "creation name", yesterday,
+                      "revision name", now, "deal", "deal type", "source 1", "side");
 
         bidViewModel = new BidViewModel("view model account", "view model type", 2);
     }
@@ -52,11 +52,11 @@ public class BidServiceTest {
     @Test
     @DisplayName("Conversion entity to view model")
     public void viewModelToEntity() {
-        BidList expected = new BidList(bidViewModel.getAccount(),
-                                       bidViewModel.getType(), bidViewModel.getBidQuantity());
-        when(modelMapper.map(bidViewModel, BidList.class)).thenReturn(expected);
+        Bid expected = new Bid(bidViewModel.getAccount(),
+                               bidViewModel.getType(), bidViewModel.getBidQuantity());
+        when(modelMapper.map(bidViewModel, Bid.class)).thenReturn(expected);
 
-        BidList result = bidService.viewModelToEntity(bidViewModel);
+        Bid result = bidService.viewModelToEntity(bidViewModel);
 
         assertEquals(result.getAccount(), bidViewModel.getAccount());
         assertEquals(result.getType(), bidViewModel.getType());
@@ -66,13 +66,13 @@ public class BidServiceTest {
     @Test
     @DisplayName("Conversion  view model to entity")
     public void entityToViewModel(){
-        BidViewModel expected = new BidViewModel(bidList.getAccount(), bidList.getType(), bidList.getBidQuantity());
-        when(modelMapper.map(bidList, BidViewModel.class)).thenReturn(expected);
-        BidViewModel result = bidService.entityToViewModel(bidList);
+        BidViewModel expected = new BidViewModel(bid.getAccount(), bid.getType(), bid.getBidQuantity());
+        when(modelMapper.map(bid, BidViewModel.class)).thenReturn(expected);
+        BidViewModel result = bidService.entityToViewModel(bid);
 
-        assertEquals(result.getAccount(), bidList.getAccount());
-        assertEquals(result.getType(), bidList.getType());
-        assertEquals(result.getBidQuantity(), bidList.getBidQuantity());
+        assertEquals(result.getAccount(), bid.getAccount());
+        assertEquals(result.getType(), bid.getType());
+        assertEquals(result.getBidQuantity(), bid.getBidQuantity());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.nnk.springboot.controllers.thymeleaf;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.Bid;
 import com.nnk.springboot.domain.viewmodel.BidViewModel;
 import com.nnk.springboot.services.BidService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/bidList")
 @Slf4j
-public class BidListController {
+public class BidController {
     @Autowired
     private BidService bidService;
 
@@ -82,7 +82,7 @@ public class BidListController {
     @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirAttrs) {
         // get Bid by ID and to model then show to the form
-        Optional<BidList> existingBid = bidService.getBidById(id);
+        Optional<Bid> existingBid = bidService.getBidById(id);
         if (existingBid.isPresent()) {
             model.addAttribute("bidList", existingBid.get());
             return "bidList/update";
@@ -92,24 +92,24 @@ public class BidListController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
+    public String updateBid(@PathVariable("id") Integer id, @Valid Bid bid,
                             BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
-        if (result.hasErrors()) return "bidList/update";
+        if (result.hasErrors()) return "bid/update";
         // if valid call service to update Bid
-        bidList.setBidListId(id);
-        bidService.updateBid(bidList);
+        bid.setBidListId(id);
+        bidService.updateBid(bid);
         // add redirect message
         redirectAttributes.addFlashAttribute("success", "Bid with ID " + id + " was successfully updated.");
         // update list and return list Bid
-        model.addAttribute("bidList", bidService.getBids());
-        return "redirect:/bidList/list";
+        model.addAttribute("bid", bidService.getBids());
+        return "redirect:/bid/list";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // Find Bid by ID
-        Optional<BidList> existingBid = bidService.getBidById(id);
+        Optional<Bid> existingBid = bidService.getBidById(id);
         // and delete the bid
         if (existingBid.isPresent()) {
             try {
