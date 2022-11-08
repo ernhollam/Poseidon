@@ -1,8 +1,8 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.controllers.thymeleaf.CurveController;
-import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.services.CurvePointService;
+import com.nnk.springboot.controllers.thymeleaf.RatingController;
+import com.nnk.springboot.domain.Rating;
+import com.nnk.springboot.services.RatingService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,122 +28,122 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @AutoConfigureMockMvc
-@WebMvcTest(CurveController.class)
+@WebMvcTest(RatingController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CurvePointControllerTest {
+public class RatingControllerTest {
     @Autowired
-    MockMvc           mockMvc;
+    MockMvc       mockMvc;
     @MockBean
-    CurvePointService service;
+    RatingService service;
 
-    private CurvePoint       curvePoint;
-    private List<CurvePoint> curvePointList;
+    private Rating       rating;
+    private List<Rating> ratingList;
 
     @BeforeAll
     public void setUp() {
-        curvePoint = new CurvePoint(3, 5d, 10d);
-        curvePointList = Collections.singletonList(curvePoint);
+        rating = new Rating("Moody's rating", "sandPRating", "fitch rating", 123456);
+        ratingList = Collections.singletonList(rating);
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    @DisplayName("Return list of curve points")
+    @DisplayName("Return list of ratings")
     public void homeTest() throws Exception {
-        when(service.getCurvePoints()).thenReturn(curvePointList);
+        when(service.getRatings()).thenReturn(ratingList);
 
-        mockMvc.perform(get("/curvePoint/list"))
+        mockMvc.perform(get("/rating/list"))
                .andExpect(status().is2xxSuccessful())
-               .andExpect(model().attributeExists("curvePoints"));
+               .andExpect(model().attributeExists("ratings"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    @DisplayName("Show add curve point form")
-    public void addCurvePointFormTest() throws Exception {
-        mockMvc.perform(get("/curvePoint/add"))
+    @DisplayName("Show add rating form")
+    public void addRatingFormTest() throws Exception {
+        mockMvc.perform(get("/rating/add"))
                .andExpect(status().is2xxSuccessful())
-               .andExpect(view().name("curvePoint/add"));
+               .andExpect(view().name("rating/add"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    @DisplayName("Add new curve point successful")
+    @DisplayName("Add new rating successful")
     public void validateTest() throws Exception {
-        when(service.saveCurvePoint(curvePoint)).thenReturn(curvePoint);
+        when(service.saveRating(rating)).thenReturn(rating);
 
-        mockMvc.perform(post("/curvePoint/validate")
+        mockMvc.perform(post("/rating/validate")
                                 .param("curveId", "3")
                                 .param("term", "5")
                                 .param("value", "10"))
                .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("success"))
-               .andExpect(view().name("redirect:/curvePoint/list"));
+               .andExpect(view().name("redirect:/rating/list"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Show update form successful")
     public void showUpdateFormIsSuccessful() throws Exception {
-        when(service.getCurvePointById(1)).thenReturn(Optional.of(curvePoint));
-        when(service.getCurvePoints()).thenReturn(curvePointList);
+        when(service.getRatingById(1)).thenReturn(Optional.of(rating));
+        when(service.getRatings()).thenReturn(ratingList);
 
-        mockMvc.perform(get("/curvePoint/update/{id}", "1"))
+        mockMvc.perform(get("/rating/update/{id}", "1"))
                .andExpect(status().is2xxSuccessful())
-               .andExpect(model().attributeExists("curvePoint"))
-               .andExpect(view().name("curvePoint/update"));
+               .andExpect(model().attributeExists("rating"))
+               .andExpect(view().name("rating/update"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Show update form failed")
     public void showUpdateFormFails() throws Exception {
-        when(service.getCurvePointById(3)).thenReturn(Optional.empty());
-        when(service.getCurvePoints()).thenReturn(curvePointList);
+        when(service.getRatingById(3)).thenReturn(Optional.empty());
+        when(service.getRatings()).thenReturn(ratingList);
 
-        mockMvc.perform(get("/curvePoint/update/{id}", "3"))
+        mockMvc.perform(get("/rating/update/{id}", "3"))
                .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("error"))
-               .andExpect(view().name("redirect:/curvePoint/list"));
+               .andExpect(view().name("redirect:/rating/list"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    @DisplayName("Update curve point successful")
-    public void updateCurvePointTest() throws Exception {
-        when(service.getCurvePointById(any(Integer.class))).thenReturn(Optional.of(curvePoint));
+    @DisplayName("Update rating successful")
+    public void updateRatingTest() throws Exception {
+        when(service.getRatingById(any(Integer.class))).thenReturn(Optional.of(rating));
 
-        mockMvc.perform(post("/curvePoint/update/{id}", "1")
+        mockMvc.perform(post("/rating/update/{id}", "1")
                                 .param("curveId", "3")
                                 .param("term", "5")
                                 .param("value", "10"))
                .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("success"))
-               .andExpect(view().name("redirect:/curvePoint/list"));
+               .andExpect(view().name("redirect:/rating/list"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    @DisplayName("Delete curve point successful")
-    public void deleteCurvePointIsSuccessful() throws Exception {
-        when(service.getCurvePointById(any(Integer.class))).thenReturn(Optional.of(curvePoint));
-        //when(service.getCurvePoints()).thenReturn(curvePointList);
+    @DisplayName("Delete rating successful")
+    public void deleteRatingIsSuccessful() throws Exception {
+        when(service.getRatingById(any(Integer.class))).thenReturn(Optional.of(rating));
+        //when(service.getRatings()).thenReturn(ratingList);
 
-        mockMvc.perform(get("/curvePoint/delete/{id}", "1"))
+        mockMvc.perform(get("/rating/delete/{id}", "1"))
                .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("success"))
-               .andExpect(view().name("redirect:/curvePoint/list"));
+               .andExpect(view().name("redirect:/rating/list"));
     }
 
     @Test
     @WithMockUser(roles = "ADMIN")
-    @DisplayName("Delete curve point failed")
-    public void deleteCurvePointFailed() throws Exception {
-        when(service.getCurvePointById(any(Integer.class))).thenReturn(Optional.empty());
-        //when(service.getCurvePoints()).thenReturn(curvePointList);
+    @DisplayName("Delete rating failed")
+    public void deleteRatingFailed() throws Exception {
+        when(service.getRatingById(any(Integer.class))).thenReturn(Optional.empty());
+        //when(service.getRatings()).thenReturn(ratingList);
 
-        mockMvc.perform(get("/curvePoint/delete/{id}", "1"))
+        mockMvc.perform(get("/rating/delete/{id}", "1"))
                .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("error"))
-               .andExpect(view().name("redirect:/curvePoint/list"));
+               .andExpect(view().name("redirect:/rating/list"));
     }
 }

@@ -74,7 +74,7 @@ public class CurveController {
 
     /**
      * Shows update curve point form
-     * @param id ID of bid to update
+     * @param id ID of curve point to update
      * @param model holder for context data to be passed from controller to the view
      * @return update curve point page
      */
@@ -87,7 +87,7 @@ public class CurveController {
             model.addAttribute("curvePoint",  existingCurvePoint.get());
             return "curvePoint/update";
         }
-        redirectAttributes.addFlashAttribute("error", "Provided curve point with ID " + id + "does not exist.");
+        redirectAttributes.addFlashAttribute("error", "Provided curve point with ID " + id + " does not exist.");
         return "redirect:/curvePoint/list";
     }
 
@@ -123,7 +123,7 @@ public class CurveController {
             curvePointService.deleteCurvePoint(id);
             redirectAttributes.addFlashAttribute("success", "Curve point with ID " + id + " was successfully deleted.");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Provided curve point with ID " + id + "does not exist.");
+            redirectAttributes.addFlashAttribute("error", "Provided curve point with ID " + id + " does not exist.");
         }
         // return to Curve list
         return "redirect:/curvePoint/list";

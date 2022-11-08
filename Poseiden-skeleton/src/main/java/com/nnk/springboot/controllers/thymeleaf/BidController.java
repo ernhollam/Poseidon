@@ -89,7 +89,7 @@ public class BidController {
             model.addAttribute("bidList", existingBid.get());
             return "bidList/update";
         }
-        redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + "does not exist.");
+        redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + " does not exist.");
         return "redirect:/bidList/list";
     }
 
@@ -116,7 +116,7 @@ public class BidController {
             bidService.deleteBid(id);
             redirectAttributes.addFlashAttribute("success", "Bid with ID " + id + " was successfully deleted.");
         } else {
-            redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + "does not exist.");
+            redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + " does not exist.");
         }
         // return to Bid list
         return "redirect:/bidList/list";
