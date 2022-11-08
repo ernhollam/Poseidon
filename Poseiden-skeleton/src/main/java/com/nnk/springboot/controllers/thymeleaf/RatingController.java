@@ -30,8 +30,7 @@ public class RatingController {
      * @return list of ratings page
      */
     @RequestMapping("/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         // find all Rating, add to model
         model.addAttribute("ratings", ratingService.getRatings());
         return "rating/list";
@@ -52,11 +51,10 @@ public class RatingController {
      * Validates the files in the add rating form.
      * @param rating rating to add
      * @param result result of validation
-     * @param model holder for context data to be passed from controller to the view
      * @return list of ratings page
      */
     @PostMapping("/validate")
-    public String validate(@Valid Rating rating, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String validate(@Valid Rating rating, BindingResult result, RedirectAttributes redirectAttributes) {
         // check data valid
         if (result.hasErrors()) {
             String error = Objects.requireNonNull(result.getGlobalError()).getDefaultMessage();
@@ -73,7 +71,7 @@ public class RatingController {
 
     /**
      * Shows update rating form
-     * @param id ID of bid to update
+     * @param id ID of rating to update
      * @param model holder for context data to be passed from controller to the view
      * @return update rating page
      */
