@@ -2,7 +2,7 @@ package com.nnk.springboot.controllers.rest;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.exceptions.ResourceNotFoundException;
-import com.nnk.springboot.services.BidListService;
+import com.nnk.springboot.services.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
@@ -22,22 +22,16 @@ import java.util.List;
 @RequestMapping("/bidList")
 public class BidRestController {
     @Autowired
-    private final BidListService service;
+    private BidService service;
 
     private final String IDNotFoundMessage = "No bid found with id:";
-
-    /**
-     * Constructor.
-     * @param service service layer
-     */
-    public BidRestController(BidListService service) {this.service = service;}
 
     /**
      * Returns all bids.
      */
     @GetMapping
     public List<BidList> getBids() {
-        return service.getBidList();
+        return service.getBids();
     }
 
     /**
