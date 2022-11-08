@@ -38,62 +38,64 @@ public class BidController {
 
     /**
      * Shows page to add new bid.
-     * @param bid bid to add
-     * @param model holder for context data to be passed from controller to the view
+     *
      * @return html page to add bid
      */
     @GetMapping("/add")
-    public String addBidForm(BidViewModel bid, Model model) {
+    public String addBidForm() {
         return "bidList/add";
     }
 
     /**
      * Validates fields in Add new bid form.
-     * @param bid fields to be validated
-     * @param result result of validation
-     * @param model holder for context data to be passed from controller to the view
+     *
+     * @param bid
+     *         fields to be validated
+     * @param result
+     *         result of validation
      * @return Returns the list of bids if the form is valid, throws an error otherwise
      */
     @PostMapping("/validate")
-    public String validate(@Valid BidViewModel bid,
-                           BindingResult result, Model model, RedirectAttributes redirAttrs) {
+    public String validate(@Valid BidViewModel bid, BindingResult result, RedirectAttributes redirectAttributes) {
         // check data valid and save to db, after saving return bid list
         if (result.hasErrors()) {
             String error = Objects.requireNonNull(result.getGlobalError()).getDefaultMessage();
             log.error(error);
-            redirAttrs.addFlashAttribute("error", error);
+            redirectAttributes.addFlashAttribute("error", error);
             return "bidList/add";
         }
         // save new bid
         bidService.saveBid(bidService.viewModelToEntity(bid));
-        redirAttrs.addFlashAttribute("success", "Bid was successfully created.");
-        // update list of bids
-        model.addAttribute("bidList", bidService.getBids());
+        redirectAttributes.addFlashAttribute("success", "Bid was successfully created.");
         // redirect to list of bids page
         return "redirect:/bidList/list";
     }
 
     /**
      * Updates a bid
-     * @param id ID of bid to update
-     * @param model holder for context data to be passed from controller to the view
+     *
+     * @param id
+     *         ID of bid to update
+     * @param model
+     *         holder for context data to be passed from controller to the view
+     *
      * @return update bid page
      */
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirAttrs) {
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // get Bid by ID and to model then show to the form
         Optional<Bid> existingBid = bidService.getBidById(id);
         if (existingBid.isPresent()) {
             model.addAttribute("bidList", existingBid.get());
             return "bidList/update";
         }
-        redirAttrs.addFlashAttribute("error", "Provided bid with ID " + id+ "does not exist.");
+        redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + "does not exist.");
         return "redirect:/bidList/list";
     }
 
     @PostMapping("/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid Bid bid,
-                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+                            BindingResult result, RedirectAttributes redirectAttributes) {
         // check required fields
         if (result.hasErrors()) return "bid/update";
         // if valid call service to update Bid
@@ -102,25 +104,21 @@ public class BidController {
         // add redirect message
         redirectAttributes.addFlashAttribute("success", "Bid with ID " + id + " was successfully updated.");
         // update list and return list Bid
-        model.addAttribute("bid", bidService.getBids());
-        return "redirect:/bid/list";
+        return "redirect:/bidList/list";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteBid(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
         // Find Bid by ID
         Optional<Bid> existingBid = bidService.getBidById(id);
         // and delete the bid
         if (existingBid.isPresent()) {
-            try {
-                bidService.deleteBid(id);
-                redirectAttributes.addFlashAttribute("success", "Bid with ID " + id + " was successfully deleted.");
-            } catch (Exception e) {
-                redirectAttributes.addFlashAttribute("error", e.getMessage());
-            }
+            bidService.deleteBid(id);
+            redirectAttributes.addFlashAttribute("success", "Bid with ID " + id + " was successfully deleted.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + "does not exist.");
         }
         // return to Bid list
-        model.addAttribute("bidList", bidService.getBids());
         return "redirect:/bidList/list";
     }
 }
