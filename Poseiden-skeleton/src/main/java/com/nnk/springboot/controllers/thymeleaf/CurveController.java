@@ -1,6 +1,9 @@
 package com.nnk.springboot.controllers.thymeleaf;
 
 import com.nnk.springboot.domain.CurvePoint;
+import com.nnk.springboot.services.CurvePointService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,47 +11,121 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.Objects;
+import java.util.Optional;
 
 @Controller
+@Slf4j
+@RequestMapping("/curvePoint")
 public class CurveController {
-    // TODO: Inject Curve Point service
+    @Autowired
+    private CurvePointService curvePointService;
 
-    @RequestMapping("/curvePoint/list")
+    /**
+     * Returns list of curve points.
+     * @param model holder for context data to be passed from controller to the view
+     * @return list of curve points page
+     */
+    @RequestMapping("/list")
     public String home(Model model)
     {
-        // TODO: find all Curve Point, add to model
+        // find all Curve Point, add to model
+        model.addAttribute("curvePoints", curvePointService.getCurvePoints());
         return "curvePoint/list";
     }
 
-    @GetMapping("/curvePoint/add")
-    public String addBidForm(CurvePoint bid) {
+    /**
+     * Shows page to add new curve point.
+     *
+     * @param curvePoint curve point to create
+     * @return add curve point page
+     */
+    @GetMapping("/add")
+    public String addCurvePointForm(CurvePoint curvePoint) {
         return "curvePoint/add";
     }
 
-    @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Curve list
-        return "curvePoint/add";
+    /**
+     * Validates the files in the add curve point form.
+     * @param curvePoint curve point to add
+     * @param result result of validation
+     * @param model holder for context data to be passed from controller to the view
+     * @return list of curve points page
+     */
+    @PostMapping("/validate")
+    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+        // check data valid
+        if (result.hasErrors()) {
+            String error = Objects.requireNonNull(result.getGlobalError()).getDefaultMessage();
+            log.error(error);
+            redirectAttributes.addFlashAttribute("error", error);
+            return "curvePoint/add";
+        }
+        // and save to db
+        curvePointService.saveCurvePoint(curvePoint);
+        redirectAttributes.addFlashAttribute("success", "Curve point was successfully created.");
+        // after saving return Curve list
+        return "redirect:/curvePoint/list";
+
     }
 
-    @GetMapping("/curvePoint/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get CurvePoint by Id and to model then show to the form
-        return "curvePoint/update";
-    }
-
-    @PostMapping("/curvePoint/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
-                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
+    /**
+     * Shows update curve point form
+     * @param id ID of bid to update
+     * @param model holder for context data to be passed from controller to the view
+     * @return update curve point page
+     */
+    @GetMapping("/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        // get CurvePoint by ID
+        Optional<CurvePoint> existingCurvePoint = curvePointService.getCurvePointById(id);
+        if (existingCurvePoint.isPresent()) {
+            // and to model then show to the form
+            model.addAttribute("curvePoint",  existingCurvePoint.get());
+            return "curvePoint/update";
+        }
+        redirectAttributes.addFlashAttribute("error", "Provided curve point with ID " + id + "does not exist.");
         return "redirect:/curvePoint/list";
     }
 
-    @GetMapping("/curvePoint/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
+    /**
+     * Validates the fields in update curve point form.
+     * @param id ID of curve point to be updated.
+     * @param curvePoint updated fields of existing curve point
+     * @param result Result of validation
+     * @return update curve point if successful, list of curve points otherwise
+     */
+    @PostMapping("/update/{id}")
+    public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
+                             BindingResult result, RedirectAttributes redirectAttributes) {
+        // check required fields
+        if (result.hasErrors()) return "curvePoint/update";
+        // if valid call service to update Curve and return Curve list
+        curvePointService.updateCurvePoint(curvePoint);
+        // add redirect message
+        redirectAttributes.addFlashAttribute("success", "Curve point with ID " + id + " was successfully updated.");
+        return "redirect:/curvePoint/list";
+    }
+
+    /**
+     * Deletes a curve point
+     * @param id ID of curve point to be deleted
+     * @return list of curve points page
+     */
+    @GetMapping("/delete/{id}")
+    public String deleteCurvePoint(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+        // Find Curve by ID and delete the Curve
+        Optional<CurvePoint> existingCurvePoint = curvePointService.getCurvePointById(id);
+        if (existingCurvePoint.isPresent()) {
+            curvePointService.deleteCurvePoint(id);
+            redirectAttributes.addFlashAttribute("success", "Curve point with ID " + id + " was successfully deleted.");
+        } else {
+            redirectAttributes.addFlashAttribute("error", "Provided curve point with ID " + id + "does not exist.");
+        }
+        // return to Curve list
         return "redirect:/curvePoint/list";
     }
 }
