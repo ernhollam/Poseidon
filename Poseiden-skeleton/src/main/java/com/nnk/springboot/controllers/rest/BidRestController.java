@@ -1,6 +1,6 @@
 package com.nnk.springboot.controllers.rest;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.Bid;
 import com.nnk.springboot.exceptions.ResourceNotFoundException;
 import com.nnk.springboot.services.BidService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class BidRestController {
      * Returns all bids.
      */
     @GetMapping
-    public List<BidList> getBids() {
+    public List<Bid> getBids() {
         return service.getBids();
     }
 
@@ -39,11 +39,11 @@ public class BidRestController {
      * @param id ID of bid to find
      * @return a bid or throws ResourceNotFoundException
      *
-     * @see com.nnk.springboot.domain.BidList
+     * @see com.nnk.springboot.domain.Bid
      * @see com.nnk.springboot.exceptions.ResourceNotFoundException
      */
     @GetMapping("/{id}")
-    public BidList getBidByID(@PathVariable Integer id) {
+    public Bid getBidByID(@PathVariable Integer id) {
         Assert.notNull(id, "ID must be provided.");
         return service.getBidById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(IDNotFoundMessage + id +"."));
@@ -56,7 +56,7 @@ public class BidRestController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BidList createBid(@RequestBody BidList bid) {
+    public Bid createBid(@RequestBody Bid bid) {
         return service.saveBid(bid);
     }
 
@@ -66,7 +66,7 @@ public class BidRestController {
      * @return updated bid.
      */
     @PutMapping
-    public BidList updateBid(@RequestBody BidList bid) {
+    public Bid updateBid(@RequestBody Bid bid) {
         return service.updateBid(bid);
     }
 

@@ -1,6 +1,6 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.Bid;
 import com.nnk.springboot.domain.viewmodel.BidViewModel;
 import com.nnk.springboot.exceptions.ResourceNotFoundException;
 import com.nnk.springboot.repositories.BidRepository;
@@ -27,9 +27,9 @@ public class BidService {
     /**
      * Creates new bid.
      */
-    public BidList saveBid(final BidList bidList) {
-        bidList.setCreationDate(LocalDateTime.now());
-        return bidRepository.save(bidList);
+    public Bid saveBid(final Bid bid) {
+        bid.setCreationDate(LocalDateTime.now());
+        return bidRepository.save(bid);
     }
 
     /**
@@ -40,7 +40,7 @@ public class BidService {
      *
      * @return Optional bid list object.
      */
-    public Optional<BidList> getBidById(final Integer id) {
+    public Optional<Bid> getBidById(final Integer id) {
         Assert.notNull(id, "ID must not be null.");
         return bidRepository.findById(id);
     }
@@ -48,25 +48,25 @@ public class BidService {
     /**
      * Returns list of all bids.
      */
-    public List<BidList> getBids() {
+    public List<Bid> getBids() {
         return bidRepository.findAll();
     }
 
     /**
      * Updates a bid.
      *
-     * @param bidList
+     * @param bid
      *         bid to update
      *
      * @return updated bid object.
      */
-    public BidList updateBid(final BidList bidList) {
-        if (bidRepository.findById(bidList.getBidListId()).isPresent()) {
-            bidList.setRevisionDate(LocalDateTime.now());
-            return bidRepository.save(bidList);
+    public Bid updateBid(final Bid bid) {
+        if (bidRepository.findById(bid.getBidListId()).isPresent()) {
+            bid.setRevisionDate(LocalDateTime.now());
+            return bidRepository.save(bid);
         } else {
-            log.error("Provided bid with ID " + bidList.getBidListId() + "does not exist.");
-            throw new ResourceNotFoundException("Provided bid with ID " + bidList.getBidListId() + "does not exist.");
+            log.error("Provided bid with ID " + bid.getBidListId() + "does not exist.");
+            throw new ResourceNotFoundException("Provided bid with ID " + bid.getBidListId() + "does not exist.");
         }
     }
 
@@ -87,11 +87,11 @@ public class BidService {
         }
     }
 
-    public BidList viewModelToEntity(BidViewModel bidViewModel) {
-        return modelMapper.map(bidViewModel, BidList.class);
+    public Bid viewModelToEntity(BidViewModel bidViewModel) {
+        return modelMapper.map(bidViewModel, Bid.class);
     }
 
-    public BidViewModel entityToViewModel(BidList bidList) {
-        return modelMapper.map(bidList, BidViewModel.class);
+    public BidViewModel entityToViewModel(Bid bid) {
+        return modelMapper.map(bid, BidViewModel.class);
     }
 }
