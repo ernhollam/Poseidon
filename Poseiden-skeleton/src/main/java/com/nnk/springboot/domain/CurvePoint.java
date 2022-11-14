@@ -6,12 +6,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "curvepoint")
+@Table(name = "CurvePoint")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,14 +26,19 @@ import java.time.LocalDateTime;
 public class CurvePoint {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "Id")
     Integer       id;
+    @NotNull(message = "Must not be null")
+    @Column(name = "CurveId")
     Integer       curveId;
     LocalDateTime asOfDate;
-    double        term;
-    double        value;
+    @NotNull(message = "Term is mandatory")
+    Double        term;
+    @NotNull(message = "Value is mandatory")
+    Double        value;
     LocalDateTime creationDate;
 
-    public CurvePoint(Integer curveId, double term, double value) {
+    public CurvePoint(Integer curveId, Double term, Double value) {
         this.curveId = curveId;
         this.term = term;
         this.value = value;

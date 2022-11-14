@@ -1,13 +1,17 @@
 package com.nnk.springboot.domain;
 
+import com.nnk.springboot.constants.PasswordValidator;
 import org.hibernate.annotations.DynamicUpdate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -15,10 +19,15 @@ import javax.validation.constraints.NotBlank;
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "Id")
     private Integer id;
     @NotBlank(message = "Username is mandatory")
     private String username;
     @NotBlank(message = "Password is mandatory")
+    @Size(min = 8, message = "Password must contain at least 8 characters")
+    @Pattern(regexp = PasswordValidator.REGEX, message = "Password invalid:\n Password must contain at least one " +
+                                                         "upper case letter, one lower case letter, a digit and a " +
+                                                         "special character")
     private String password;
     @NotBlank(message = "FullName is mandatory")
     private String fullname;
