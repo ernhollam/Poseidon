@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,10 +20,9 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamicUpdate
 public class RuleName {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "Id")
     Integer id;
     @Size(max = 125, message = "Maximum of {max} characters")
@@ -41,9 +39,11 @@ public class RuleName {
     String  template;
     @Size(max = 125, message = "Maximum of {max} characters")
     @NotBlank(message = "sqlStr is mandatory")
+    @Column(name = "sqlStr")
     String  sqlStr;
     @Size(max = 125, message = "Maximum of {max} characters")
     @NotBlank(message = "sqlPart is mandatory")
+    @Column(name = "sqlPart")
     String  sqlPart;
 
     public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {

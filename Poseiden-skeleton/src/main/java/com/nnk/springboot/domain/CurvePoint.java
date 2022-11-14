@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,20 +21,21 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamicUpdate
 public class CurvePoint {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "Id")
     Integer       id;
     @NotNull(message = "Must not be null")
     @Column(name = "CurveId")
     Integer       curveId;
+    @Column(name = "asOfDate")
     LocalDateTime asOfDate;
     @NotNull(message = "Term is mandatory")
     Double        term;
     @NotNull(message = "Value is mandatory")
     Double        value;
+    @Column(name = "creationDate")
     LocalDateTime creationDate;
 
     public CurvePoint(Integer curveId, Double term, Double value) {

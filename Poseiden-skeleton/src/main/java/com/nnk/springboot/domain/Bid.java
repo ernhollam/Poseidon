@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 public class Bid {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "BidListId")
     Integer       bidListId;
     @NotBlank(message = "Account is mandatory")
@@ -36,12 +36,15 @@ public class Bid {
     @Size(max = 30, message = "Maximum of {max} characters")
     String        type;
     @NotNull(message = "Bid quantity is mandatory")
+    @Column(name = "bidQuantity")
     Double        bidQuantity;
+    @Column(name = "askQuantity")
     Double        askQuantity;
     Double        bid;
     Double        ask;
     @Size(max = 125, message = "Maximum of {max} characters")
     String        benchmark;
+    @Column(name = "bidListDate")
     LocalDateTime bidListDate;
     @Size(max = 125, message = "Maximum of {max} characters")
     String        commentary;
@@ -54,16 +57,23 @@ public class Bid {
     @Size(max = 125, message = "Maximum of {max} characters")
     String        book;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "creationName")
     String        creationName;
+    @Column(name = "creationDate")
     LocalDateTime creationDate;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "revisionName")
     String        revisionName;
+    @Column(name = "revisionDate")
     LocalDateTime revisionDate;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "dealName")
     String        dealName;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "dealType")
     String        dealType;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "sourceListId")
     String        sourceListId;
     @Size(max = 125, message = "Maximum of {max} characters")
     String        side;

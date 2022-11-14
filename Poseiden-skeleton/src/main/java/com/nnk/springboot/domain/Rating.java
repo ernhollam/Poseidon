@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,19 +20,22 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamicUpdate
 public class Rating {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "Id")
     Integer id;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "moodysRating")
     String  moodysRating;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "sandPRating")
     String  sandPRating;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "fitchRating")
     String  fitchRating;
     @NotNull(message = "Order number is mandatory")
+    @Column(name = "orderNumber")
     Integer orderNumber;
 
     public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {

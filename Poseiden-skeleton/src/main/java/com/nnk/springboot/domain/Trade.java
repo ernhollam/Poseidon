@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,10 +22,9 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DynamicUpdate
 public class Trade {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "TradeId")
     Integer       tradeId;
     @NotBlank(message = "Account is mandatory")
@@ -35,11 +33,16 @@ public class Trade {
     @NotBlank(message = "Type is mandatory")
     @Size(max = 30, message = "Maximum of {max} characters")
     String        type;
+    @Column(name = "buyQuantity")
     Double        buyQuantity;
+    @Column(name = "sellQuantity")
     Double        sellQuantity;
+    @Column(name = "buyPrice")
     Double        buyPrice;
+    @Column(name = "sellPrice")
     Double        sellPrice;
     String        benchmark;
+    @Column(name = "tradeDate")
     LocalDateTime tradeDate;
     @Size(max = 125, message = "Maximum of {max} characters")
     String        security;
@@ -50,16 +53,23 @@ public class Trade {
     @Size(max = 125, message = "Maximum of {max} characters")
     String        book;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "creationName")
     String        creationName;
+    @Column(name = "creationDate")
     LocalDateTime creationDate;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "revisionName")
     String        revisionName;
+    @Column(name = "revisionDate")
     LocalDateTime revisionDate;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "dealName")
     String        dealName;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "dealType")
     String        dealType;
     @Size(max = 125, message = "Maximum of {max} characters")
+    @Column(name = "sourceListId")
     String        sourceListId;
     @Size(max = 125, message = "Maximum of {max} characters")
     String        side;
