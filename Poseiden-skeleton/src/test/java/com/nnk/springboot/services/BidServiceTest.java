@@ -42,11 +42,12 @@ public class BidServiceTest {
     void init() {
         LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
         LocalDateTime now       = LocalDateTime.now();
-        bid = new Bid(1, "bid list account", "bid type", 3, 1, 1, 1, "benchmark", now, "comment",
+        bid = new Bid(1, "bid list account", "bid type", 3.0, 1.0,
+                      1.0, 1.0, "benchmark", now, "comment",
                       "security", "status", "trader", "book", "creation name", yesterday,
                       "revision name", now, "deal", "deal type", "source 1", "side");
 
-        bidViewModel = new BidViewModel("view model account", "view model type", 2);
+        bidViewModel = new BidViewModel("view model account", "view model type", 2.0);
     }
 
     @Test

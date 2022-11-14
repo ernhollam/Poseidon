@@ -21,19 +21,19 @@
             <div class="form-group">
                 <label for="account">Account</label>
                 <input type="text" th:value="${account}" class="form-control" id="account"
-                       placeholder="Account" required name="account">
+                       placeholder="Account" th:placeholder="${bidList.account}" required name="account">
             </div>
             <!--type-->
             <div class="form-group">
                 <label for="type">Type</label>
                 <input type="text" th:value="${type}" class="form-control" id="type"
-                       placeholder="Type" required name="type">
+                       placeholder="Type" th:placeholder="${bidList.type}" required name="type">
             </div>
             <!--Bid quantity-->
             <div class="form-group">
                 <label for="bidQuantity">Bid quantity</label>
                 <input type="number" th:value="${bidQuantity}" class="form-control" id="bidQuantity"
-                       placeholder="Bid quantity" required name="bidQuantity">
+                       placeholder="Bid quantity" th:placeholder="${bidList.bidQuantity}" required name="bidQuantity">
             </div>
             <!--cancel and update bid buttons-->
             <div class="row justify-content-center align-items-center mx-auto m-2">
