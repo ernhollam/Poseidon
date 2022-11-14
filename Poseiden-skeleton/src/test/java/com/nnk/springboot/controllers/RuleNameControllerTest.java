@@ -75,8 +75,8 @@ public class RuleNameControllerTest {
                                 .param("curveId", "3")
                                 .param("term", "5")
                                 .param("value", "10"))
-               .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("success"))
+               .andExpect(status().is3xxRedirection())
                .andExpect(view().name("redirect:/ruleName/list"));
     }
 
@@ -119,8 +119,8 @@ public class RuleNameControllerTest {
                                 .param("template", "template")
                                 .param("sqlStr", "sqlStr")
                                 .param("sqlPart", "sqlPart"))
-               .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("success"))
+               .andExpect(status().is3xxRedirection())
                .andExpect(view().name("redirect:/ruleName/list"));
     }
 
