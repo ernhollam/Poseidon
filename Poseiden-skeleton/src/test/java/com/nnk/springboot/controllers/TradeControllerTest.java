@@ -8,9 +8,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,7 +27,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@AutoConfigureMockMvc
 @WebMvcTest(TradeController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TradeControllerTest {
@@ -74,8 +73,10 @@ public class TradeControllerTest {
         mockMvc.perform(post("/trade/validate")
                                 .param("curveId", "3")
                                 .param("term", "5")
-                                .param("value", "10"))
-               .andExpect(status().is3xxRedirection())
+                                .param("value", "10")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+               .andExpect(status().isOk())
                .andExpect(flash().attributeExists("success"))
                .andExpect(view().name("redirect:/trade/list"));
     }
