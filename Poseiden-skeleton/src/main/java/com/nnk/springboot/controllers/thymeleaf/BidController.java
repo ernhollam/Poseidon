@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -59,7 +58,7 @@ public class BidController {
     public String validate(@Valid BidViewModel bid, BindingResult result, RedirectAttributes redirectAttributes) {
         // check data valid and save to db, after saving return bid list
         if (result.hasErrors()) {
-            String error = Objects.requireNonNull(result.getGlobalError()).getDefaultMessage();
+            String error = "The form contains errors.";
             log.error(error);
             redirectAttributes.addFlashAttribute("error", error);
             return "bidList/add";

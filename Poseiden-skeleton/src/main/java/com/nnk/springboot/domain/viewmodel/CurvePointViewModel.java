@@ -12,6 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class CurvePointViewModel {
     @NotBlank(message = "Must not be null")
     Integer curveId;
-    double  term;
-    double  value;
+    Double  term;
+    Double  value;
 }

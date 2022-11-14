@@ -14,5 +14,5 @@ public class BidViewModel {
     String account;
     @NotBlank(message = "Type is mandatory")
     String type;
-    double bidQuantity;
+    Double bidQuantity;
 }

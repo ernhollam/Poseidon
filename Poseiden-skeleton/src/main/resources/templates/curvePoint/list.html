@@ -3,7 +3,7 @@
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8"/>
-<title>Home</title>
+<title>List of curve points</title>
 <link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
 </head>
 <body>
@@ -37,7 +37,15 @@
 				</tr>
 			</thead>
 			<tbody>
-			<!-- TODO: Show all CurvePoint to the table, the action column will have Edit & Delete buttons -->
+			<!-- Show all CurvePoint to the table, the action column will have Edit & Delete buttons -->
+			<tr th:each="curvePoint : ${curvePoints}">
+				<td th:text="${curvePoint.id}">45</td>
+				<td th:text="${curvePoint.curveId}">12</td>
+				<td th:text="${curvePoint.term}">14.0</td>
+				<td th:text="${curvePoint.Value}">10.0</td>
+				<td class="text-center"><a th:href="@{/curvePoint/update/{id}(id=${curvePoint.id})}">Edit</a>&nbsp;|&nbsp;
+					<a th:href="@{/curvePoint/delete/{id}(id=${curvePoint.id})}">Delete</a></td>
+			</tr>
 			</tbody>
 		</table>
 	</div>

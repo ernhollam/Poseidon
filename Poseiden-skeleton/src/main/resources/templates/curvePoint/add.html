@@ -3,7 +3,7 @@
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8"/>
-<title>Home</title>
+<title>Add curve point</title>
 <link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
 </head>
 <body>
@@ -16,9 +16,35 @@
 	<div class="row">
 		<form action="#" th:action="@{/curvePoint/validate}" th:object="${curvePoint}" method="post" class="form-horizontal" style="width: 100%">
 			<!--
-			TODO: Create a form to input the values of CurvePoint, there are 2 buttons: Save data and Cancel to the list CurvePoint
+			Create a form to input the values of CurvePoint, there are 2 buttons: Save data and Cancel to the list CurvePoint
 			 -->
-
+			<!--curve id-->
+			<div class="form-group">
+				<label for="curveId">Curve ID</label>
+				<input type="text" th:value="${curveId}" class="form-control" id="curveId"
+					   placeholder="Curve ID" required name="curveId">
+			</div>
+			<!--term-->
+			<div class="form-group">
+				<label for="term">Term</label>
+				<input type="text" th:value="${term}" class="form-control" id="term"
+					   placeholder="Term" required name="term">
+			</div>
+			<!--value-->
+			<div class="form-group">
+				<label for="value">Value</label>
+				<input type="number" th:value="${value}" class="form-control" id="value"
+					   placeholder="Value" required name="value">
+			</div>
+			<!--cancel and add bid buttons-->
+			<div class="row justify-content-center align-items-center mx-auto m-2">
+				<a type="button" class="btn btn-danger text-white col-3 m-4 " th:href="@{/curvePoint/list}">
+					Cancel
+				</a>
+				<button type="submit" class="btn btn-primary col-3 m-4">
+					Add CurvePoint
+				</button>
+			</div>
 		</form>
 	</div>
 

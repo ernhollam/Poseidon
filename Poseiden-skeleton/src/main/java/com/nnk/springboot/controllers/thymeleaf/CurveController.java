@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -59,7 +58,7 @@ public class CurveController {
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check data valid
         if (result.hasErrors()) {
-            String error = Objects.requireNonNull(result.getGlobalError()).getDefaultMessage();
+            String error = "The form contains errors.";
             log.error(error);
             redirectAttributes.addFlashAttribute("error", error);
             return "curvePoint/add";
