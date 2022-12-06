@@ -80,7 +80,7 @@ public class TradeController {
         tradeService.saveTrade(trade);
         redirectAttributes.addFlashAttribute("success", "Trade was successfully created.");
         // after saving return Trade list
-        return "trade/add";
+        return "redirect:/trade/list";
     }
 
     /**
@@ -124,6 +124,7 @@ public class TradeController {
         // check required fields
         if (result.hasErrors()) return "trade/update";
         // if valid call service to update Trade
+        trade.setTradeId(id);
         tradeService.updateTrade(trade);
         // and return Trade list
         redirectAttributes.addFlashAttribute("success", "Trade with ID " + id + " was successfully updated.");

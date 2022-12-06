@@ -3,7 +3,7 @@
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8"/>
-<title>Home</title>
+<title>Add new trade</title>
 <link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
 </head>
 <body>
@@ -16,9 +16,35 @@
 	<div class="row">
 		<form action="#" th:action="@{/trade/validate}" th:object="${trade}" method="post" class="form-horizontal" style="width: 100%">
 			<!--
-			TODO: Create a form to input the values of Trade, there are 2 buttons: Save data and Cancel to the list Trade
+			Create a form to input the values of Trade, there are 2 buttons: Save data and Cancel to the list Trade
 			 -->
-
+			<!--account-->
+			<div class="form-group">
+				<label for="account">Account</label>
+				<input type="text" th:value="${account}" class="form-control" id="account"
+					   placeholder="Account" required name="account">
+			</div>
+			<!--type-->
+			<div class="form-group">
+				<label for="type">Type</label>
+				<input type="text" th:value="${type}" class="form-control" id="type"
+					   placeholder="Type" required name="type">
+			</div>
+			<!--buy quantity-->
+			<div class="form-group">
+				<label for="buyQuantity">Buy quantity</label>
+				<input type="number" th:value="${buyQuantity}" class="form-control" id="buyQuantity"
+					   placeholder="Buy quantity" required name="buyQuantity">
+			</div>
+			<!--cancel and add bid buttons-->
+			<div class="row justify-content-center align-items-center mx-auto m-2">
+				<a type="button" class="btn btn-danger text-white col-3 m-4 " th:href="@{/trade/list}">
+					Cancel
+				</a>
+				<button type="submit" class="btn btn-primary col-3 m-4">
+					Add Trade
+				</button>
+			</div>
 		</form>
 	</div>
 
