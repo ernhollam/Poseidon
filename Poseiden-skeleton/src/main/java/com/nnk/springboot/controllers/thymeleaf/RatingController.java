@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers.thymeleaf;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.services.RatingService;
+import com.nnk.springboot.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -25,20 +27,26 @@ public class RatingController {
 
     /**
      * Returns list of ratings.
-     * @param model holder for context data to be passed from controller to the view
+     *
+     * @param model
+     *         holder for context data to be passed from controller to the view
+     *
      * @return list of ratings page
      */
     @RequestMapping("/list")
-    public String home(Model model) {
+    public String home(Model model, Principal user) {
         // find all Rating, add to model
         model.addAttribute("ratings", ratingService.getRatings());
+        model.addAttribute("username", UserService.getUsername(user));
         return "rating/list";
     }
 
     /**
      * Shows page to add new rating.
      *
-     * @param rating rating to create
+     * @param rating
+     *         rating to create
+     *
      * @return add rating page
      */
     @GetMapping("/add")
@@ -48,8 +56,12 @@ public class RatingController {
 
     /**
      * Validates the files in the add rating form.
-     * @param rating rating to add
-     * @param result result of validation
+     *
+     * @param rating
+     *         rating to add
+     * @param result
+     *         result of validation
+     *
      * @return list of ratings page
      */
     @PostMapping("/validate")
@@ -70,8 +82,12 @@ public class RatingController {
 
     /**
      * Shows update rating form
-     * @param id ID of rating to update
-     * @param model holder for context data to be passed from controller to the view
+     *
+     * @param id
+     *         ID of rating to update
+     * @param model
+     *         holder for context data to be passed from controller to the view
+     *
      * @return update rating page
      */
     @GetMapping("/update/{id}")
@@ -89,14 +105,19 @@ public class RatingController {
 
     /**
      * Validates the fields in update rating form.
-     * @param id ID of rating to be updated.
-     * @param rating updated fields of existing rating
-     * @param result Result of validation
+     *
+     * @param id
+     *         ID of rating to be updated.
+     * @param rating
+     *         updated fields of existing rating
+     * @param result
+     *         Result of validation
+     *
      * @return update rating if successful, list of ratings otherwise
      */
     @PostMapping("/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
-                             BindingResult result, RedirectAttributes redirectAttributes) {
+                               BindingResult result, RedirectAttributes redirectAttributes) {
         // check required fields
         if (result.hasErrors()) return "rating/update";
         // if valid call service to update Rating
@@ -108,7 +129,10 @@ public class RatingController {
 
     /**
      * Deletes a rating
-     * @param id ID of rating to be deleted
+     *
+     * @param id
+     *         ID of rating to be deleted
+     *
      * @return list of ratings page
      */
     @GetMapping("/delete/{id}")

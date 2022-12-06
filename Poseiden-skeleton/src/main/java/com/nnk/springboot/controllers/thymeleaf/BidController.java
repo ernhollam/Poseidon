@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers.thymeleaf;
 import com.nnk.springboot.domain.Bid;
 import com.nnk.springboot.domain.viewmodel.BidViewModel;
 import com.nnk.springboot.services.BidService;
+import com.nnk.springboot.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 
@@ -30,8 +32,9 @@ public class BidController {
      * Shows list of bids.
      */
     @RequestMapping("/list")
-    public String home(Model model) {
+    public String home(Model model, Principal user) {
         model.addAttribute("bidList", bidService.getBids());
+        model.addAttribute("username", UserService.getUsername(user));
         return "bidList/list";
     }
 
@@ -52,6 +55,7 @@ public class BidController {
      *         fields to be validated
      * @param result
      *         result of validation
+     *
      * @return Returns the list of bids if the form is valid, throws an error otherwise
      */
     @PostMapping("/validate")

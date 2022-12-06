@@ -2,6 +2,7 @@ package com.nnk.springboot.controllers.thymeleaf;
 
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.services.TradeService;
+import com.nnk.springboot.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -34,16 +36,19 @@ public class TradeController {
      * @return list of trades page
      */
     @RequestMapping("/list")
-    public String home(Model model) {
+    public String home(Model model, Principal user) {
         // find all Trade, add to model
         model.addAttribute("trades", tradeService.getTrades());
+        model.addAttribute("username", UserService.getUsername(user));
         return "trade/list";
     }
 
     /**
      * Shows page to add new trade.
      *
-     * @param trade trade to create
+     * @param trade
+     *         trade to create
+     *
      * @return add trade page
      */
     @GetMapping("/add")
@@ -53,8 +58,12 @@ public class TradeController {
 
     /**
      * Validates the files in the add trade form.
-     * @param trade trade to add
-     * @param result result of validation
+     *
+     * @param trade
+     *         trade to add
+     * @param result
+     *         result of validation
+     *
      * @return list of trades page
      */
     @PostMapping("/validate")
@@ -69,15 +78,19 @@ public class TradeController {
         }
         // and save to db
         tradeService.saveTrade(trade);
-        redirectAttributes.addFlashAttribute("success", "Trade was successfully created.");        
+        redirectAttributes.addFlashAttribute("success", "Trade was successfully created.");
         // after saving return Trade list
         return "trade/add";
     }
 
     /**
      * Shows update trade form
-     * @param id ID of trade to update
-     * @param model holder for context data to be passed from controller to the view
+     *
+     * @param id
+     *         ID of trade to update
+     * @param model
+     *         holder for context data to be passed from controller to the view
+     *
      * @return update trade page
      */
     @GetMapping("/update/{id}")
@@ -87,7 +100,7 @@ public class TradeController {
         // and to model then show to the form
         if (existingTrade.isPresent()) {
             model.addAttribute("trade", existingTrade.get());
-            return  "trade/update";
+            return "trade/update";
         }
         redirectAttributes.addFlashAttribute("error", "Provided trade with ID " + id + " does not exist.");
         return "redirect:/trade/list";
@@ -95,9 +108,14 @@ public class TradeController {
 
     /**
      * Validates the fields in update trade form.
-     * @param id ID of trade to be updated.
-     * @param trade updated fields of existing trade
-     * @param result Result of validation
+     *
+     * @param id
+     *         ID of trade to be updated.
+     * @param trade
+     *         updated fields of existing trade
+     * @param result
+     *         Result of validation
+     *
      * @return update trade if successful, list of trades otherwise
      */
     @PostMapping("/update/{id}")
@@ -114,7 +132,10 @@ public class TradeController {
 
     /**
      * Deletes a trade
-     * @param id ID of trade to be deleted
+     *
+     * @param id
+     *         ID of trade to be deleted
+     *
      * @return list of trades page
      */
     @GetMapping("/delete/{id}")
