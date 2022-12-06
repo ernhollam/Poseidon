@@ -21,19 +21,19 @@
 			<div class="form-group">
 				<label for="curveId">Curve ID</label>
 				<input type="text" th:value="${curveId}" class="form-control" id="curveId"
-					   placeholder="Curve ID" required name="curveId">
+					   placeholder="Curve ID" th:placeholder="${curvePoint.curveId}" required name="curveId">
 			</div>
 			<!--term-->
 			<div class="form-group">
 				<label for="term">Term</label>
 				<input type="text" th:value="${term}" class="form-control" id="term"
-					   placeholder="Term" required name="term">
+					   placeholder="Term" th:placeholder="${curvePoint.term}" required name="term">
 			</div>
 			<!--value-->
 			<div class="form-group">
 				<label for="value">Value</label>
 				<input type="number" th:value="${value}" class="form-control" id="value"
-					   placeholder="Value" required name="value">
+					   placeholder="Value" th:placeholder="${curvePoint.value}" required name="value">
 			</div>
 			<!--cancel and add bid buttons-->
 			<div class="row justify-content-center align-items-center mx-auto m-2">

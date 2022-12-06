@@ -16,8 +16,41 @@
 	<div class="row">
 		<form action="#" th:action="@{/rating/update/{id}(id=${rating.id})}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
 			<!--
-			TODO: Create a form to edit the values of Rating, there are 2 buttons: Update data and Cancel to the Rating
+			Create a form to edit the values of Rating, there are 2 buttons: Update data and Cancel to the Rating
 			 -->
+			<!--moodysRating-->
+			<div class="form-group">
+				<label for="moodysRating">Moody's rating</label>
+				<input type="text" th:value="${moodysRating}" class="form-control" id="moodysRating"
+					   placeholder="Moody's rating" th:placeholder="${rating.moodysRating}" required name="moodysRating">
+			</div>
+			<!--sandPRating-->
+			<div class="form-group">
+				<label for="sandPRating">S and P rating</label>
+				<input type="text" th:value="${sandPRating}" class="form-control" id="sandPRating"
+					   placeholder="S and P rating" th:placeholder="${rating.sandPRating}" required name="sandPRating">
+			</div>
+			<!--fitchRating-->
+			<div class="form-group">
+				<label for="fitchRating">Fitch rating</label>
+				<input type="text" th:value="${fitchRating}" class="form-control" id="fitchRating"
+					   placeholder="Fitch rating" th:placeholder="${rating.fitchRating}" required name="fitchRating">
+			</div>
+			<!--orderNumber-->
+			<div class="form-group">
+				<label for="orderNumber">Order number</label>
+				<input type="number" th:value="${orderNumber}" class="form-control" id="orderNumber"
+					   placeholder="Order number" th:placeholder="${rating.orderNumber}" required name="orderNumber">
+			</div>
+			<!--cancel and add rating buttons-->
+			<div class="row justify-content-center align-items-center mx-auto m-2">
+				<a type="button" class="btn btn-danger text-white col-3 m-4 " th:href="@{/rating/list}">
+					Cancel
+				</a>
+				<button type="submit" class="btn btn-primary col-3 m-4">
+					Update Rating
+				</button>
+			</div>
 		</form>
 	</div>
 

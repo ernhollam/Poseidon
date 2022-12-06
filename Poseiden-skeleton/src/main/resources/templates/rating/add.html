@@ -1,26 +1,58 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<title>Home</title>
-<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
+    <meta charset="utf-8"/>
+    <title>Home</title>
+    <link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
 
-	<div class="row">
-		<h2>Add New Rating</h2>
-	</div>
+    <div class="row">
+        <h2>Add New Rating</h2>
+    </div>
 
-	<div class="row">
-		<form action="#" th:action="@{/rating/validate}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to input the values of Rating, there are 2 buttons: Save data and Cancel to the list Rating
-			 -->
-
-		</form>
-	</div>
+    <div class="row">
+        <form action="#" th:action="@{/rating/validate}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
+            <!--
+            Create a form to input the values of Rating, there are 2 buttons: Save data and Cancel to the list Rating
+             -->
+            <!--moodysRating-->
+            <div class="form-group">
+                <label for="moodysRating">Moody's rating</label>
+                <input type="text" th:value="${moodysRating}" class="form-control" id="moodysRating"
+                       placeholder="Moody's rating" required name="moodysRating">
+            </div>
+            <!--sandPRating-->
+            <div class="form-group">
+                <label for="sandPRating">S and P rating</label>
+                <input type="text" th:value="${sandPRating}" class="form-control" id="sandPRating"
+                       placeholder="S and P rating" required name="sandPRating">
+            </div>
+            <!--fitchRating-->
+            <div class="form-group">
+                <label for="fitchRating">Fitch rating</label>
+                <input type="text" th:value="${fitchRating}" class="form-control" id="fitchRating"
+                       placeholder="Fitch rating" required name="fitchRating">
+            </div>
+            <!--orderNumber-->
+            <div class="form-group">
+                <label for="orderNumber">Order number</label>
+                <input type="number" th:value="${orderNumber}" class="form-control" id="orderNumber"
+                       placeholder="Order number" required name="orderNumber">
+            </div>
+            <!--cancel and add rating buttons-->
+            <div class="row justify-content-center align-items-center mx-auto m-2">
+                <a type="button" class="btn btn-danger text-white col-3 m-4 " th:href="@{/rating/list}">
+                    Cancel
+                </a>
+                <button type="submit" class="btn btn-primary col-3 m-4">
+                    Add Rating
+                </button>
+            </div>
+        </form>
+    </div>
 
 </div>
 </body>
