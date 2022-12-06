@@ -12,5 +12,5 @@ public class PasswordValidator {
      *  - one special character,
      *  with minimum eight characters in length
      */
-    public final static String REGEX ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+    public final static String REGEX ="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-+\\\"',./:=^`|~]).{8,}$";
 }

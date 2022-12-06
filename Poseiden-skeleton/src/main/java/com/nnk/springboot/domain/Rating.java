@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "Rating")
+@Table(name = "rating")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,16 +26,12 @@ public class Rating {
     @Column(name = "Id")
     Integer id;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "moodysRating")
     String  moodysRating;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "sandPRating")
     String  sandPRating;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "fitchRating")
     String  fitchRating;
     @NotNull(message = "Order number is mandatory")
-    @Column(name = "orderNumber")
     Integer orderNumber;
 
     public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {

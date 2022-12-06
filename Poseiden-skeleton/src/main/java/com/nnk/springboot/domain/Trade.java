@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "Trade")
+@Table(name = "trade")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -33,16 +33,11 @@ public class Trade {
     @NotBlank(message = "Type is mandatory")
     @Size(max = 30, message = "Maximum of {max} characters")
     String        type;
-    @Column(name = "buyQuantity")
     Double        buyQuantity;
-    @Column(name = "sellQuantity")
     Double        sellQuantity;
-    @Column(name = "buyPrice")
     Double        buyPrice;
-    @Column(name = "sellPrice")
     Double        sellPrice;
     String        benchmark;
-    @Column(name = "tradeDate")
     LocalDateTime tradeDate;
     @Size(max = 125, message = "Maximum of {max} characters")
     String        security;
@@ -53,23 +48,16 @@ public class Trade {
     @Size(max = 125, message = "Maximum of {max} characters")
     String        book;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "creationName")
     String        creationName;
-    @Column(name = "creationDate")
     LocalDateTime creationDate;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "revisionName")
     String        revisionName;
-    @Column(name = "revisionDate")
     LocalDateTime revisionDate;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "dealName")
     String        dealName;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "dealType")
     String        dealType;
     @Size(max = 125, message = "Maximum of {max} characters")
-    @Column(name = "sourceListId")
     String        sourceListId;
     @Size(max = 125, message = "Maximum of {max} characters")
     String        side;

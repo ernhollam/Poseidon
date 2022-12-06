@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "CurvePoint")
+@Table(name = "curvepoint")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,13 +29,11 @@ public class CurvePoint {
     @NotNull(message = "Must not be null")
     @Column(name = "CurveId")
     Integer       curveId;
-    @Column(name = "asOfDate")
     LocalDateTime asOfDate;
     @NotNull(message = "Term is mandatory")
     Double        term;
     @NotNull(message = "Value is mandatory")
     Double        value;
-    @Column(name = "creationDate")
     LocalDateTime creationDate;
 
     public CurvePoint(Integer curveId, Double term, Double value) {

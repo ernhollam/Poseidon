@@ -1,3 +1,4 @@
+CREATE DATABASE demo;
 use demo;
 
 CREATE TABLE BidList (

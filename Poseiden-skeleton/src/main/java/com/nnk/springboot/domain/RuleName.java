@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "RuleName")
+@Table(name = "rulename")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -39,11 +39,9 @@ public class RuleName {
     String  template;
     @Size(max = 125, message = "Maximum of {max} characters")
     @NotBlank(message = "sqlStr is mandatory")
-    @Column(name = "sqlStr")
     String  sqlStr;
     @Size(max = 125, message = "Maximum of {max} characters")
     @NotBlank(message = "sqlPart is mandatory")
-    @Column(name = "sqlPart")
     String  sqlPart;
 
     public RuleName(String name, String description, String json, String template, String sqlStr, String sqlPart) {
