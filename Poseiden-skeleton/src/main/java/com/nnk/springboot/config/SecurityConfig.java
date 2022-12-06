@@ -18,12 +18,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .authorizeRequests().antMatchers("/", "/login", "/css/**").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin().defaultSuccessUrl("/bidList/list")
-                .and().oauth2Login().defaultSuccessUrl("/bidList/list")
-                .and().logout().logoutUrl("/app-logout")
-                .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID");
+                .authorizeRequests()
+                    .antMatchers("/", "/login", "/css/**", "/error").permitAll()
+                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+                .and()
+                    .formLogin()
+                    .defaultSuccessUrl("/bidList/list")
+                .and()
+                    .oauth2Login()
+                    .defaultSuccessUrl("/bidList/list")
+                .and()
+                    .logout()
+                    .logoutUrl("/app-logout")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID");
     }
 }
