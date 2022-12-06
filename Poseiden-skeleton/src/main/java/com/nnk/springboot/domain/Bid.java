@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,6 +37,8 @@ public class Bid {
     @Size(max = 30, message = "Maximum of {max} characters")
     String        type;
     @NotNull(message = "Bid quantity is mandatory")
+    @Digits(integer = 10, fraction = 2,
+            message = "Value must be numeric and must not have more than (fraction) decimals")
     Double        bidQuantity;
     Double        askQuantity;
     Double        bid;
