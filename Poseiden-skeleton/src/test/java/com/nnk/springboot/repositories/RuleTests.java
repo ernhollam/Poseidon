@@ -1,10 +1,11 @@
 package com.nnk.springboot.repositories;
 
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.repositories.RuleNameRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@DataJpaTest
 public class RuleTests {
 
 	@Autowired
