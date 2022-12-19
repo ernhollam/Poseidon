@@ -62,8 +62,8 @@ public class RatingService {
         if (ratingRepository.findById(rating.getId()).isPresent()) {
             return ratingRepository.save(rating);
         } else {
-            log.error("Provided rating with ID " + rating.getId() + "does not exist.");
-            throw new ResourceNotFoundException("Provided rating with ID " + rating.getId() + "does not exist.");
+            log.error("Provided rating with ID " + rating.getId() + " does not exist.");
+            throw new ResourceNotFoundException("Provided rating with ID " + rating.getId() + " does not exist.");
         }
     }
 
