@@ -64,8 +64,8 @@ public class TradeService {
             trade.setRevisionDate(LocalDateTime.now());
             return tradeRepository.save(trade);
         } else {
-            log.error("Provided trade with ID " + trade.getTradeId() + "does not exist.");
-            throw new ResourceNotFoundException("Provided trade with ID " + trade.getTradeId() + "does not exist.");
+            log.error("Provided trade with ID " + trade.getTradeId() + " does not exist.");
+            throw new ResourceNotFoundException("Provided trade with ID " + trade.getTradeId() + " does not exist.");
         }
     }
 
