@@ -1,17 +1,17 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.controllers.thymeleaf.RatingController;
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.services.RatingService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@AutoConfigureMockMvc
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(RatingController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RatingControllerTest {
@@ -72,9 +73,11 @@ public class RatingControllerTest {
         when(service.saveRating(rating)).thenReturn(rating);
 
         mockMvc.perform(post("/rating/validate")
-                                .param("curveId", "3")
-                                .param("term", "5")
-                                .param("value", "10"))
+                                .with(csrf().asHeader())
+                                .param("moodysRating", rating.getMoodysRating())
+                                .param("sandPRating", rating.getSandPRating())
+                                .param("fitchRating", rating.getFitchRating())
+                                .param("orderNumber", rating.getOrderNumber().toString()))
                .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("success"))
                .andExpect(view().name("redirect:/rating/list"));
@@ -113,9 +116,11 @@ public class RatingControllerTest {
         when(service.getRatingById(any(Integer.class))).thenReturn(Optional.of(rating));
 
         mockMvc.perform(post("/rating/update/{id}", "1")
-                                .param("curveId", "3")
-                                .param("term", "5")
-                                .param("value", "10"))
+                                .with(csrf().asHeader())
+                                .param("moodysRating", "new moodys")
+                                .param("sandPRating", "new s&P")
+                                .param("fitchRating", "new fitch rating")
+                                .param("orderNumber", "789000"))
                .andExpect(status().is3xxRedirection())
                .andExpect(flash().attributeExists("success"))
                .andExpect(view().name("redirect:/rating/list"));

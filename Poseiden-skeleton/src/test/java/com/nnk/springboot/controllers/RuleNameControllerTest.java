@@ -1,17 +1,17 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.controllers.thymeleaf.RuleNameController;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.services.RuleService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@AutoConfigureMockMvc
+@ExtendWith(SpringExtension.class)
 @WebMvcTest(RuleNameController.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RuleNameControllerTest {
@@ -72,9 +73,13 @@ public class RuleNameControllerTest {
         when(service.saveRule(ruleName)).thenReturn(ruleName);
 
         mockMvc.perform(post("/ruleName/validate")
-                                .param("curveId", "3")
-                                .param("term", "5")
-                                .param("value", "10"))
+                                .with(csrf().asHeader())
+                                .param("name", "new name")
+                                .param("description", "new desc")
+                                .param("json", "new json")
+                                .param("template", "new template")
+                                .param("sqlStr", "new sqlStr")
+                                .param("sqlPart", "new sqlPart"))
                .andExpect(flash().attributeExists("success"))
                .andExpect(status().is3xxRedirection())
                .andExpect(view().name("redirect:/ruleName/list"));
@@ -113,6 +118,7 @@ public class RuleNameControllerTest {
         when(service.getRuleById(any(Integer.class))).thenReturn(Optional.of(ruleName));
 
         mockMvc.perform(post("/ruleName/update/{id}", "1")
+                                .with(csrf().asHeader())
                                 .param("name", "name")
                                 .param("description", "description")
                                 .param("json", "json")
