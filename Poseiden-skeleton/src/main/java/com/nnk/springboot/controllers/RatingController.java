@@ -1,4 +1,4 @@
-package com.nnk.springboot.controllers.thymeleaf;
+package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.services.RatingService;

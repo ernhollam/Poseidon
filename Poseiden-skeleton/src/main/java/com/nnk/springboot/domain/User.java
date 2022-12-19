@@ -25,7 +25,7 @@ public class User {
     private String username;
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password must contain at least 8 characters")
-    @Pattern(regexp = PasswordValidator.REGEX, message = "Password invalid:\n Password must contain at least one " +
+    @Pattern(regexp = PasswordValidator.REGEX, message = "Password must contain at least one " +
                                                          "upper case letter, one lower case letter, a digit and a " +
                                                          "special character (#?!@$%^&*-+\\\"',./:=^`|~)")
     private String password;

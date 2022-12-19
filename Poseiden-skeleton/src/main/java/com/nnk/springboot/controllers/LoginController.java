@@ -1,4 +1,4 @@
-package com.nnk.springboot.controllers.thymeleaf;
+package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
