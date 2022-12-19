@@ -62,8 +62,8 @@ public class RuleService {
         if (ruleNameRepository.findById(id).isPresent()) {
             return ruleNameRepository.save(bidList);
         } else {
-            log.error("Provided rule with ID " + id + "does not exist.");
-            throw new ResourceNotFoundException("Provided rule with ID " + id + "does not exist.");
+            log.error("Provided rule with ID " + id + " does not exist.");
+            throw new ResourceNotFoundException("Provided rule with ID " + id + " does not exist.");
         }
     }
 
