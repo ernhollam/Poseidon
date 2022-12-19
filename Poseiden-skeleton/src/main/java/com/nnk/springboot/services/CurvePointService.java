@@ -63,8 +63,9 @@ public class CurvePointService {
         if (curvePointRepository.findById(curvePoint.getId()).isPresent()) {
             return curvePointRepository.save(curvePoint);
         } else {
-            log.error("Provided curve point with ID " + curvePoint.getCurveId() + "does not exist.");
-            throw new ResourceNotFoundException("Provided curve point with ID " + curvePoint.getCurveId() + "does not exist.");
+            log.error("Provided curve point with ID " + curvePoint.getCurveId() + " does not exist.");
+            throw new ResourceNotFoundException("Provided curve point with ID " + curvePoint.getCurveId() + " does " +
+                                                "not exist.");
         }
     }
 
