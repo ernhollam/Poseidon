@@ -63,8 +63,8 @@ public class UserService {
         if (userRepository.findById(user.getId()).isPresent()) {
             return userRepository.save(user);
         } else {
-            log.error("Provided user with ID " + user.getId() + "does not exist.");
-            throw new ResourceNotFoundException("Provided user with ID " + user.getId() + "does not exist.");
+            log.error("Provided user with ID " + user.getId() + " does not exist.");
+            throw new ResourceNotFoundException("Provided user with ID " + user.getId() + " does not exist.");
         }
     }
 

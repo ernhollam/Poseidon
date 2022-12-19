@@ -1,7 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.User;
-import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ public class UserControllerTest {
     @Autowired
     MockMvc               mockMvc;
     @MockBean
-    UserRepository        repository;
+    UserService           userService;
     @MockBean
     BCryptPasswordEncoder encoder;
 
@@ -58,7 +58,7 @@ public class UserControllerTest {
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Return list of users")
     public void homeTest() throws Exception {
-        when(repository.findAll()).thenReturn(users);
+        when(userService.getUsers()).thenReturn(users);
 
         mockMvc.perform(get("/user/list"))
                .andExpect(status().is2xxSuccessful())
@@ -79,7 +79,7 @@ public class UserControllerTest {
     @DisplayName("Add new user successful")
     public void validateTest() throws Exception {
         when(encoder.encode(anyString())).thenReturn(encodedPassword);
-        when(repository.save(user)).thenReturn(user);
+        when(userService.saveUser(user)).thenReturn(user);
 
         mockMvc.perform(post("/user/validate")
                                 .with(csrf().asHeader())
@@ -95,7 +95,7 @@ public class UserControllerTest {
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Show update form successful")
     public void showUpdateFormIsSuccessful() throws Exception {
-        when(repository.findById(any(Integer.class))).thenReturn(Optional.of(user));
+        when(userService.getUserById(any(Integer.class))).thenReturn(Optional.of(user));
 
 
         mockMvc.perform(get("/user/update/{id}", "1"))
@@ -107,8 +107,8 @@ public class UserControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Show update form failed")
-    public void showUpdateFormFails() throws Exception {
-        when(repository.findById(3)).thenReturn(Optional.empty());
+    public void showUpdateFormFails() {
+        when(userService.getUserById(3)).thenReturn(Optional.empty());
         assertThrows(Exception.class, () -> mockMvc.perform(get("/user/update/{id}", "3")));
     }
 
@@ -117,8 +117,8 @@ public class UserControllerTest {
     @DisplayName("Update user successful")
     public void updateBidTest() throws Exception {
         when(encoder.encode(anyString())).thenReturn("password");
-        when(repository.save(user)).thenReturn(user);
-        when(repository.findAll()).thenReturn(users);
+        when(userService.saveUser(user)).thenReturn(user);
+        when(userService.getUsers()).thenReturn(users);
 
         mockMvc.perform(post("/user/update/{id}", "1")
                                 .with(csrf().asHeader())
@@ -134,8 +134,8 @@ public class UserControllerTest {
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Delete user successful")
     public void deleteBidIsSuccessful() throws Exception {
-        when(repository.findById(any(Integer.class))).thenReturn(Optional.of(user));
-        when(repository.findAll()).thenReturn(users);
+        when(userService.getUserById(any(Integer.class))).thenReturn(Optional.of(user));
+        when(userService.getUsers()).thenReturn(users);
 
         mockMvc.perform(get("/user/delete/{id}", "1"))
                .andExpect(status().is3xxRedirection())
@@ -145,8 +145,8 @@ public class UserControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Delete user failed")
-    public void deleteBidFailed() throws Exception {
-        when(repository.findById(any(Integer.class))).thenReturn(Optional.empty());
+    public void deleteBidFailed() {
+        when(userService.getUserById(any(Integer.class))).thenReturn(Optional.empty());
         assertThrows(Exception.class, () -> mockMvc.perform(get("/user/delete/{id}", "1")));
     }
 }

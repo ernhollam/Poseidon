@@ -1,6 +1,8 @@
 package com.nnk.springboot.domain;
 
 import com.nnk.springboot.constants.PasswordValidator;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
@@ -16,6 +18,8 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "users")
 @DynamicUpdate
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
