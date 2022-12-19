@@ -66,7 +66,7 @@ public class BidService {
             return bidRepository.save(bid);
         } else {
             log.error("Provided bid with ID " + bid.getBidListId() + "does not exist.");
-            throw new ResourceNotFoundException("Provided bid with ID " + bid.getBidListId() + "does not exist.");
+            throw new ResourceNotFoundException("Provided bid with ID " + bid.getBidListId() + " does not exist.");
         }
     }
 
