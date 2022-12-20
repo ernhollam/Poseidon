@@ -23,14 +23,13 @@ public class UserController {
     private BCryptPasswordEncoder encoder;
 
     @RequestMapping("/user/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("users", userService.getUsers());
         return "user/list";
     }
 
     @GetMapping("/user/add")
-    public String addUser(User bid) {
+    public String addUser(User user) {
         return "user/add";
     }
 
@@ -70,7 +69,8 @@ public class UserController {
 
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
-        User user = userService.getUserById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        User user =
+                userService.getUserById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userService.deleteUser(user.getId());
         model.addAttribute("users", userService.getUsers());
         return "redirect:/user/list";

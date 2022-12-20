@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .authorizeRequests()
                     .antMatchers("/", "/login", "/css/**", "/error").permitAll()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
+                    .antMatchers("/user/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -28,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .oauth2Login()
                     .defaultSuccessUrl("/bidList/list")
+                .and()
+                    .exceptionHandling()
+                    .accessDeniedPage("/app/error")
                 .and()
                     .logout()
                     .logoutUrl("/app-logout")

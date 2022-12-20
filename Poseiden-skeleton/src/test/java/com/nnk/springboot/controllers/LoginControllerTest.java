@@ -3,6 +3,7 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import org.junit.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -19,8 +20,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@WebMvcTest(controllers = LoginController.class, secure = false)
 @RunWith(SpringRunner.class)
+@WebMvcTest(controllers = LoginController.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class LoginControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -29,6 +31,7 @@ public class LoginControllerTest {
     UserRepository userRepository;
 
     @Test
+    @WithMockUser
     public void testGetAllUserArticles() throws Exception {
         List<User> expectedList = new ArrayList<>();
         when(userRepository.findAll()).thenReturn(expectedList);
