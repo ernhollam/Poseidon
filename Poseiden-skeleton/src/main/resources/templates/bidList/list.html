@@ -9,41 +9,33 @@
 <body>
 <div class="container">
     <div th:insert="fragments/header :: header"></div>
-
-    <div class="col-12">
-
-        <div class="row"><h2>Bid List</h2></div>
-
-        <div th:insert="fragments/alert :: alert"></div>
-
-        <div class="row">
-            <a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Account</th>
-                    <th>Type</th>
-                    <th>Bid Quantity</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <!-- Show all Bids to the table, the Action column will have Edit & Delete buttons -->
-                <tr th:each="bid : ${bidList}">
-                    <td th:text="${bid.bidListId}">44</td>
-                    <td th:text="${bid.account}">Account name</td>
-                    <td th:text="${bid.type}">Account type</td>
-                    <td th:text="${bid.bidQuantity}">10.0</td>
-                    <td class="text-center"><a th:href="@{/bidList/update/{id}(id=${bid.bidListId})}">Edit</a>&nbsp;|&nbsp;
-                        <a th:href="@{/bidList/delete/{id}(id=${bid.bidListId})}">Delete</a></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
+    <div class="row"><h2>Bid List</h2></div>
+    <div th:insert="fragments/alert :: alert"></div>
+    <div class="row">
+        <a href="/bidList/add" class="btn btn-primary btn-sm">Add New</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Account</th>
+                <th>Type</th>
+                <th>Bid Quantity</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Show all Bids to the table, the Action column will have Edit & Delete buttons -->
+            <tr th:each="bid : ${bidList}">
+                <td th:text="${bid.bidListId}">44</td>
+                <td th:text="${bid.account}">Account name</td>
+                <td th:text="${bid.type}">Account type</td>
+                <td th:text="${bid.bidQuantity}">10.0</td>
+                <td class="text-center"><a th:href="@{/bidList/update/{id}(id=${bid.bidListId})}">Edit</a>&nbsp;|&nbsp;
+                    <a th:href="@{/bidList/delete/{id}(id=${bid.bidListId})}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
 </div>
 </body>
 </html>
