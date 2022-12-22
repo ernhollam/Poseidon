@@ -69,19 +69,14 @@ public class CurveController {
     @PostMapping("/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model,
                            RedirectAttributes redirectAttributes) {
-        // check data valid
-        if (result.hasErrors()) {
-            String error = "The form contains errors.";
-            log.error(error);
-            redirectAttributes.addFlashAttribute("error", error);
-            return "curvePoint/add";
+        // check data valid and save to db after saving return Curve list
+        if (!result.hasErrors()) {
+            curvePointService.saveCurvePoint(curvePoint);
+            redirectAttributes.addFlashAttribute("success", "Curve point was successfully created.");
+            model.addAttribute("curvePoints", curvePointService.getCurvePoints());
+            return "redirect:/curvePoint/list";
         }
-        // and save to db
-        curvePointService.saveCurvePoint(curvePoint);
-        redirectAttributes.addFlashAttribute("success", "Curve point was successfully created.");
-        // after saving return Curve list
-        return "redirect:/curvePoint/list";
-
+        return "curvePoint/add";
     }
 
     /**
@@ -121,13 +116,14 @@ public class CurveController {
      */
     @PostMapping("/update/{id}")
     public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
-                                   BindingResult result, RedirectAttributes redirectAttributes) {
+                                   BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
         if (result.hasErrors()) return "curvePoint/update";
         // if valid call service to update Curve and return Curve list
         curvePointService.updateCurvePoint(curvePoint);
         // add redirect message
         redirectAttributes.addFlashAttribute("success", "Curve point with ID " + id + " was successfully updated.");
+        model.addAttribute("curvePoints", curvePointService.getCurvePoints());
         return "redirect:/curvePoint/list";
     }
 
@@ -140,7 +136,7 @@ public class CurveController {
      * @return list of curve points page
      */
     @GetMapping("/delete/{id}")
-    public String deleteCurvePoint(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteCurvePoint(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // Find Curve by ID and delete the Curve
         Optional<CurvePoint> existingCurvePoint = curvePointService.getCurvePointById(id);
         if (existingCurvePoint.isPresent()) {
@@ -150,6 +146,7 @@ public class CurveController {
             redirectAttributes.addFlashAttribute("error", "Provided curve point with ID " + id + " does not exist.");
         }
         // return to Curve list
+        model.addAttribute("curvePoints", curvePointService.getCurvePoints());
         return "redirect:/curvePoint/list";
     }
 }

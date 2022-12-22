@@ -19,30 +19,34 @@
 			 -->
 			<!--curve id-->
 			<div class="form-group">
-				<label for="curveId">Curve ID</label>
-				<input type="text" th:value="${curveId}" class="form-control" id="curveId"
-					   placeholder="Curve ID" th:placeholder="${curvePoint.curveId}" required name="curveId">
+				<label for="curveId" class="col-sm-2 control-label">Curve Id</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{curveId}" id="curveId" placeholder="Curve Id" class="col-4">
+					<p class="text-danger small" th:if="${#fields.hasErrors('curveId')}" th:errors="*{curveId}"></p>
+				</div>
 			</div>
 			<!--term-->
 			<div class="form-group">
-				<label for="term">Term</label>
-				<input type="text" th:value="${term}" class="form-control" id="term"
-					   placeholder="Term" th:placeholder="${curvePoint.term}" required name="term">
+				<label for="term" class="col-sm-2 control-label">Term</label>
+				<div class="col-sm-10">
+					<input type="number" th:field="*{term}" id="term" placeholder="Term" class="col-4">
+					<p class="text-danger small" th:if="${#fields.hasErrors('term')}" th:errors="*{term}"></p>
+				</div>
 			</div>
 			<!--value-->
 			<div class="form-group">
-				<label for="value">Value</label>
-				<input type="number" th:value="${value}" class="form-control" id="value"
-					   placeholder="Value" th:placeholder="${curvePoint.value}" required name="value">
+				<label for="value" class="col-sm-2 control-label">Value</label>
+				<div class="col-sm-10">
+					<input type="number" th:field="*{value}" id="value" placeholder="Value" class="col-4">
+					<p class="text-danger small" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></p>
+				</div>
 			</div>
-			<!--cancel and add bid buttons-->
-			<div class="row justify-content-center align-items-center mx-auto m-2">
-				<a type="button" class="btn btn-danger text-white col-3 m-4 " th:href="@{/curvePoint/list}">
-					Cancel
-				</a>
-				<button type="submit" class="btn btn-primary col-3 m-4">
-					Update curvePoint
-				</button>
+			<!--cancel and add buttons-->
+			<div class="form-group">
+				<div class="col-sm-12">
+					<a class="btn btn-danger btn-sm" href="/curvePoint/list">Cancel</a>
+					<input class="btn btn-primary btn-sm" type="submit" value="Update CurvePoint">
+				</div>
 			</div>
 		</form>
 	</div>

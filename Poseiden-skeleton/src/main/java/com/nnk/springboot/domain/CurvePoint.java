@@ -34,6 +34,8 @@ public class CurvePoint {
     Integer       curveId;
     LocalDateTime asOfDate;
     @NotNull(message = "Term is mandatory")
+    @Digits(integer = 10, fraction = 2,
+            message = "Value must be numeric and must not have more than (fraction) decimals")
     Double        term;
     @NotNull(message = "Value is mandatory")
     @Digits(integer = 10, fraction = 2,
