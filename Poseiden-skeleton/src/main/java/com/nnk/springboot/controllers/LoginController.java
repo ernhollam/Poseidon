@@ -38,7 +38,7 @@ public class LoginController {
         String errorMessage= "You are not authorized for the requested data.";
         mav.addObject("errorMsg", errorMessage);
         mav.addObject("username", UserService.getUsername(user));
-        mav.setViewName("403");
+        mav.setViewName("../static/error/403");
         return mav;
     }
 }
