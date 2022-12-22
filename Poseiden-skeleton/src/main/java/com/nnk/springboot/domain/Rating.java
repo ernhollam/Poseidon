@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -38,6 +39,7 @@ public class Rating {
     String  fitchRating;
     @NotNull(message = "Order number is mandatory")
     @Positive(message = "Must be a positive number")
+    @Max(value = Integer.MAX_VALUE, message = "Must be less than (value)")
     Integer orderNumber;
 
     public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {

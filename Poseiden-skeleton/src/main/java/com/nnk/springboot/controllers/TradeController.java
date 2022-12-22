@@ -67,20 +67,18 @@ public class TradeController {
      * @return list of trades page
      */
     @PostMapping("/validate")
-    public String validate(@Valid Trade trade, BindingResult result,
+    public String validate(@Valid Trade trade, BindingResult result, Model model,
                            RedirectAttributes redirectAttributes) {
         // check data valid
-        if (result.hasErrors()) {
-            String error = "The form contains errors.";
-            log.error(error);
-            redirectAttributes.addFlashAttribute("error", error);
-            return "trade/add";
+        if (!result.hasErrors()) {
+            // and save to db
+            tradeService.saveTrade(trade);
+            redirectAttributes.addFlashAttribute("success", "Trade was successfully created.");
+            model.addAttribute("trades", tradeService.getTrades());
+            // after saving return Trade list
+            return "redirect:/trade/list";
         }
-        // and save to db
-        tradeService.saveTrade(trade);
-        redirectAttributes.addFlashAttribute("success", "Trade was successfully created.");
-        // after saving return Trade list
-        return "redirect:/trade/list";
+        return "trade/add";
     }
 
     /**
@@ -120,7 +118,7 @@ public class TradeController {
      */
     @PostMapping("/update/{id}")
     public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
-                              BindingResult result, RedirectAttributes redirectAttributes) {
+                              BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
         if (result.hasErrors()) return "trade/update";
         // if valid call service to update Trade
@@ -128,6 +126,7 @@ public class TradeController {
         tradeService.updateTrade(trade);
         // and return Trade list
         redirectAttributes.addFlashAttribute("success", "Trade with ID " + id + " was successfully updated.");
+        model.addAttribute("trades", tradeService.getTrades());
         return "redirect:/trade/list";
     }
 
@@ -140,7 +139,7 @@ public class TradeController {
      * @return list of trades page
      */
     @GetMapping("/delete/{id}")
-    public String deleteTrade(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteTrade(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // Find Trade by ID
         Optional<Trade> existingTrade = tradeService.getTradeById(id);
         // and delete the Trade
@@ -151,6 +150,7 @@ public class TradeController {
             redirectAttributes.addFlashAttribute("error", "Provided trade with ID " + id + " does not exist.");
         }
         // return to Trade list
+        model.addAttribute("trades", tradeService.getTrades());
         return "redirect:/trade/list";
     }
 }
