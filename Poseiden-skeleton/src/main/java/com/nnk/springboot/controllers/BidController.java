@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Bid;
-import com.nnk.springboot.domain.viewmodel.BidViewModel;
 import com.nnk.springboot.services.BidService;
 import com.nnk.springboot.services.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +43,7 @@ public class BidController {
      * @return html page to add bid
      */
     @GetMapping("/add")
-    public String addBidForm() {
+    public String addBidForm(Bid bid) {
         return "bidList/add";
     }
 
@@ -59,19 +58,18 @@ public class BidController {
      * @return Returns the list of bids if the form is valid, throws an error otherwise
      */
     @PostMapping("/validate")
-    public String validate(@Valid BidViewModel bid, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String validate(@Valid Bid bid, BindingResult result, Model model,
+                           RedirectAttributes redirectAttributes) {
         // check data valid and save to db, after saving return bid list
-        if (result.hasErrors()) {
-            String error = "The form contains errors.";
-            log.error(error);
-            redirectAttributes.addFlashAttribute("error", error);
-            return "bidList/add";
+        if (!result.hasErrors()) {
+            // save new bid
+            bidService.saveBid(bid);
+            redirectAttributes.addFlashAttribute("success", "Bid was successfully created.");
+            model.addAttribute("bidList", bidService.getBids());
+            // redirect to list of bids page
+            return "redirect:/bidList/list";
         }
-        // save new bid
-        bidService.saveBid(bidService.viewModelToEntity(bid));
-        redirectAttributes.addFlashAttribute("success", "Bid was successfully created.");
-        // redirect to list of bids page
-        return "redirect:/bidList/list";
+        return "bidList/add";
     }
 
     /**
@@ -89,7 +87,7 @@ public class BidController {
         // get Bid by ID and to model then show to the form
         Optional<Bid> existingBid = bidService.getBidById(id);
         if (existingBid.isPresent()) {
-            model.addAttribute("bidList", existingBid.get());
+            model.addAttribute("bid", existingBid.get());
             return "bidList/update";
         }
         redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + " does not exist.");
@@ -98,7 +96,7 @@ public class BidController {
 
     @PostMapping("/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid Bid bid,
-                            BindingResult result, RedirectAttributes redirectAttributes) {
+                            BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
         if (result.hasErrors()) return "bidList/update";
         // if valid call service to update Bid
@@ -107,11 +105,12 @@ public class BidController {
         // add redirect message
         redirectAttributes.addFlashAttribute("success", "Bid with ID " + id + " was successfully updated.");
         // update list and return list Bid
+        model.addAttribute("bids", bidService.getBids());
         return "redirect:/bidList/list";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // Find Bid by ID
         Optional<Bid> existingBid = bidService.getBidById(id);
         // and delete the bid
@@ -122,6 +121,7 @@ public class BidController {
             redirectAttributes.addFlashAttribute("error", "Provided bid with ID " + id + " does not exist.");
         }
         // return to Bid list
+        model.addAttribute("bids", bidService.getBids());
         return "redirect:/bidList/list";
     }
 }
