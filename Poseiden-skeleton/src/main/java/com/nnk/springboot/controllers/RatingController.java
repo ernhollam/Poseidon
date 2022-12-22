@@ -65,19 +65,17 @@ public class RatingController {
      * @return list of ratings page
      */
     @PostMapping("/validate")
-    public String validate(@Valid Rating rating, BindingResult result, RedirectAttributes redirectAttributes) {
-        // check data valid
-        if (result.hasErrors()) {
-            String error = "The form contains errors.";
-            log.error(error);
-            redirectAttributes.addFlashAttribute("error", error);
-            return "rating/add";
+    public String validate(@Valid Rating rating, BindingResult result,
+                           Model model, RedirectAttributes redirectAttributes) {
+        // check data valid and save to db
+        if (!result.hasErrors()) {
+            ratingService.saveRating(rating);
+            redirectAttributes.addFlashAttribute("success", "Rating was successfully created.");
+            // after saving return Rating list
+            model.addAttribute("ratings", ratingService.getRatings());
+            return "redirect:/rating/list";
         }
-        // and save to db
-        ratingService.saveRating(rating);
-        redirectAttributes.addFlashAttribute("success", "Rating was successfully created.");
-        // after saving return Rating list
-        return "redirect:/rating/list";
+        return "rating/add";
     }
 
     /**
@@ -117,13 +115,14 @@ public class RatingController {
      */
     @PostMapping("/update/{id}")
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
-                               BindingResult result, RedirectAttributes redirectAttributes) {
+                               BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
         if (result.hasErrors()) return "rating/update";
         // if valid call service to update Rating
         ratingService.updateRating(rating);
         // and return Rating list
         redirectAttributes.addFlashAttribute("success", "Rating with ID " + id + " was successfully updated.");
+        model.addAttribute("ratings", ratingService.getRatings());
         return "redirect:/rating/list";
     }
 
@@ -136,7 +135,7 @@ public class RatingController {
      * @return list of ratings page
      */
     @GetMapping("/delete/{id}")
-    public String deleteRating(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteRating(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // Find Rating by ID
         Optional<Rating> existingRating = ratingService.getRatingById(id);
         // and delete the Rating
@@ -147,6 +146,7 @@ public class RatingController {
             redirectAttributes.addFlashAttribute("error", "Provided rating with ID " + id + " does not exist.");
         }
         // return to Rating list
+        model.addAttribute("ratings", ratingService.getRatings());
         return "redirect:/rating/list";
     }
 }
