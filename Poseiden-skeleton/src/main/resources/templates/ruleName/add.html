@@ -1,70 +1,80 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8"/>
-<title>Add a rule</title>
-<link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
+    <meta charset="utf-8"/>
+    <title>Add a rule</title>
+    <link rel="stylesheet" th:href="@{../../css/bootstrap.min.css}" href="../../static/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
 
-	<div class="row">
-		<h2>Add New Rule</h2>
-	</div>
+    <div class="row">
+        <h2>Add New Rule</h2>
+    </div>
 
-	<div class="row">
-		<form action="#" th:action="@{/ruleName/validate}" th:object="${ruleName}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			Create a form to input the values of RuleName, there are 2 buttons: Save data and Cancel to the list RuleName
-			 -->
-			<!--name-->
-			<div class="form-group">
-				<label for="name">Name</label>
-				<input type="text" th:value="${name}" class="form-control" id="name"
-					   placeholder="Name" required name="name">
-			</div>
-			<!--description-->
-			<div class="form-group">
-				<label for="description">Description</label>
-				<input type="text" th:value="${description}" class="form-control" id="description"
-					   placeholder="Description" required name="description">
-			</div>
-			<!--json-->
-			<div class="form-group">
-				<label for="json">JSON</label>
-				<input type="text" th:value="${json}" class="form-control" id="json"
-					   placeholder="JSON" required name="json">
-			</div>
-			<!--template-->
-			<div class="form-group">
-				<label for="template">Template</label>
-				<input type="text" th:value="${template}" class="form-control" id="template"
-					   placeholder="Template" required name="template">
-			</div>
-			<!--sqlStr-->
-			<div class="form-group">
-				<label for="sqlStr">sqlStr</label>
-				<input type="text" th:value="${sqlStr}" class="form-control" id="sqlStr"
-					   placeholder="sqlStr" required name="sqlStr">
-			</div>
-			<!--sqlPart-->
-			<div class="form-group">
-				<label for="sqlPart">sqlPart</label>
-				<input type="text" th:value="${sqlPart}" class="form-control" id="sqlPart"
-					   placeholder="sqlPart" required name="sqlPart">
-			</div>
-			<!--cancel and add Rule buttons-->
-			<div class="row justify-content-center align-items-center mx-auto m-2">
-				<a type="button" class="btn btn-danger text-white col-3 m-4 " th:href="@{/ruleName/list}">
-					Cancel
-				</a>
-				<button type="submit" class="btn btn-primary col-3 m-4">
-					Add Rule
-				</button>
-			</div>
-		</form>
-	</div>
+    <div class="row">
+        <form action="#" th:action="@{/ruleName/validate}" th:object="${ruleName}" method="post" class="form-horizontal" style="width: 100%">
+            <!--
+            Create a form to input the values of RuleName, there are 2 buttons: Save data and Cancel to the list RuleName
+             -->
+            <!--rule name-->
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">Rule Name</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{name}" id="name" placeholder="Rule Name" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+                </div>
+            </div>
+            <!--description-->
+            <div class="form-group">
+                <label for="description" class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{description}" id="description" placeholder="Description" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+                </div>
+            </div>
+            <!--JSON-->
+            <div class="form-group">
+                <label for="json" class="col-sm-2 control-label">JSON</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{json}" id="json" placeholder="JSON" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('json')}" th:errors="*{json}"></p>
+                </div>
+            </div>
+            <!--Template-->
+            <div class="form-group">
+                <label for="template" class="col-sm-2 control-label">Template</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{template}" id="template" placeholder="Template" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('template')}" th:errors="*{template}"></p>
+                </div>
+            </div>
+            <!--sqlStr-->
+            <div class="form-group">
+                <label for="sqlStr" class="col-sm-2 control-label">SQL String</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{sqlStr}" id="sqlStr" placeholder="Sql String" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('sqlStr')}" th:errors="*{sqlStr}"></p>
+                </div>
+            </div>
+            <!--sqlPart-->
+            <div class="form-group">
+                <label for="sqlPart" class="col-sm-2 control-label">SQL Part</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{sqlPart}" id="sqlPart" placeholder="SQL Part" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('sqlPart')}" th:errors="*{sqlPart}"></p>
+                </div>
+            </div>
+            <!--Cancel and add Rule buttons-->
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <a class="btn btn-danger btn-sm" href="/ruleName/list">Cancel</a>
+                    <input class="btn btn-primary btn-sm" type="submit" value="Add Rule">
+                </div>
+            </div>
+        </form>
+    </div>
 
 </div>
 </body>

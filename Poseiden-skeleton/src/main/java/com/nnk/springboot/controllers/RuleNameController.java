@@ -65,19 +65,18 @@ public class RuleNameController {
      * @return list of rules page
      */
     @PostMapping("/validate")
-    public String validate(@Valid RuleName ruleName, BindingResult result, RedirectAttributes redirectAttributes) {
-        // check data valid
-        if (result.hasErrors()) {
-            String error = "The form contains errors.";
-            log.error(error);
-            redirectAttributes.addFlashAttribute("error", error);
-            return "ruleName/add";
+    public String validate(@Valid RuleName ruleName, BindingResult result, Model model,
+                           RedirectAttributes redirectAttributes) {
+        // check data valid and save to db
+        if (!result.hasErrors()) {
+            ruleService.saveRule(ruleName);
+            redirectAttributes.addFlashAttribute("success", "Rule name was successfully created.");
+            // after saving return Rating list
+            model.addAttribute("rules", ruleService.getRules());
+            return "redirect:/ruleName/list";
         }
-        // and save to db
-        ruleService.saveRule(ruleName);
-        redirectAttributes.addFlashAttribute("success", "Rule name was successfully created.");
-        // after saving return Rating list
-        return "redirect:/ruleName/list";
+        return "ruleName/add";
+
     }
 
     /**
@@ -117,13 +116,14 @@ public class RuleNameController {
      */
     @PostMapping("/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
-                                 BindingResult result, RedirectAttributes redirectAttributes) {
+                                 BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
         if (result.hasErrors()) return "ruleName/update";
         // if valid call service to update RuleName
         ruleService.updateRule(ruleName);
         // and return RuleName list
         redirectAttributes.addFlashAttribute("success", "Rule name with ID " + id + " was successfully updated.");
+        model.addAttribute("rules", ruleService.getRules());
         return "redirect:/ruleName/list";
     }
 
@@ -136,7 +136,7 @@ public class RuleNameController {
      * @return list of rules page
      */
     @GetMapping("/delete/{id}")
-    public String deleteRuleName(@PathVariable("id") Integer id, RedirectAttributes redirectAttributes) {
+    public String deleteRuleName(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         // Find ruleName by ID
         Optional<RuleName> existingRule = ruleService.getRuleById(id);
         // and delete the Rule
@@ -147,6 +147,7 @@ public class RuleNameController {
             redirectAttributes.addFlashAttribute("error", "Provided rule with ID " + id + " does not exist.");
         }
         // return to Rating list
+        model.addAttribute("rules", ruleService.getRules());
         return "redirect:/ruleName/list";
     }
 }
