@@ -93,7 +93,7 @@ public class BidControllerTest {
 
         mockMvc.perform(get("/bidList/update/{id}", "1"))
                .andExpect(status().is2xxSuccessful())
-               .andExpect(model().attributeExists("bidList"))
+               .andExpect(model().attributeExists("bid"))
                .andExpect(view().name("bidList/update"));
     }
 
