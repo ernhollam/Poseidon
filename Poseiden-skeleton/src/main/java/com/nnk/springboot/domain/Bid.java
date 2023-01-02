@@ -39,7 +39,7 @@ public class Bid {
     String        type;
 
     @Digits(integer = 10, fraction = 2,
-            message = "Value must be numeric and must not have more than (fraction) decimals")
+            message = "Value must be numeric and must not have more than {fraction} decimals")
     @Positive(message = "Must be a positive number")
     @NotNull(message = "Bid quantity is mandatory")
     Double        bidQuantity;

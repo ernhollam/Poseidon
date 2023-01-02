@@ -38,7 +38,7 @@ public class Trade {
     String        type;
     @NotNull(message = "Buy quantity is mandatory")
     @Digits(integer = 10, fraction = 2,
-            message = "Value must be numeric and must not have more than (fraction) decimals")
+            message = "Value must be numeric and must not have more than {fraction} decimals")
     @Positive(message = "Must be a positive number")
     Double        buyQuantity;
     Double        sellQuantity;

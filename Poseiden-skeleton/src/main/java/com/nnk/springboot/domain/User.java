@@ -1,6 +1,6 @@
 package com.nnk.springboot.domain;
 
-import com.nnk.springboot.constants.PasswordValidator;
+import com.nnk.springboot.constants.PasswordRegExp;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -29,9 +29,9 @@ public class User {
     private String username;
     @NotBlank(message = "Password is mandatory")
     @Size(min = 8, message = "Password must contain at least 8 characters")
-    @Pattern(regexp = PasswordValidator.REGEX, message = "Password must contain at least one " +
-                                                         "upper case letter, one lower case letter, a digit and a " +
-                                                         "special character (#?!@$%^&*-+\\\"',./:=^`|~)")
+    @Pattern(regexp = PasswordRegExp.REGEX, message = "Password must contain at least one " +
+                                                      "upper case letter, one lower case letter, a digit and a " +
+                                                      "special character (#?!@$%^&*-+\\\"',./:=^`|~)")
     private String password;
     @NotBlank(message = "FullName is mandatory")
     private String fullname;
