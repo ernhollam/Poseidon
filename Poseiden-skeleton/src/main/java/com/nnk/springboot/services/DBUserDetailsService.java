@@ -29,6 +29,8 @@ public class DBUserDetailsService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
                 user.get().getUsername(), user.get().getPassword(), true, true,
                 true, true,
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER")));
+                Collections.singletonList(user.get().getRole().equalsIgnoreCase("ADMIN") ?
+                                          new SimpleGrantedAuthority("ROLE_ADMIN") :
+                                          new SimpleGrantedAuthority( "ROLE_USER")));
     }
 }
