@@ -118,7 +118,11 @@ public class RuleNameController {
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
                                  BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
-        if (result.hasErrors()) return "ruleName/update";
+        if (result.hasErrors()){
+            ruleName.setId(id);
+            model.addAttribute("ruleName", ruleName);
+            return "ruleName/update";
+        }
         // if valid call service to update RuleName
         ruleService.updateRule(ruleName);
         // and return RuleName list

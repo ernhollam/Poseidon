@@ -117,7 +117,11 @@ public class RatingController {
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
                                BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
-        if (result.hasErrors()) return "rating/update";
+        if (result.hasErrors()){
+            rating.setId(id);
+            model.addAttribute("rating", rating);
+            return "rating/update";
+        }
         // if valid call service to update Rating
         ratingService.updateRating(rating);
         // and return Rating list

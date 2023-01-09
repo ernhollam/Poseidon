@@ -120,7 +120,11 @@ public class TradeController {
     public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade,
                               BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
-        if (result.hasErrors()) return "trade/update";
+        if (result.hasErrors()) {
+            trade.setTradeId(id);
+            model.addAttribute("trade", trade);
+            return "trade/update";
+        }
         // if valid call service to update Trade
         trade.setTradeId(id);
         tradeService.updateTrade(trade);

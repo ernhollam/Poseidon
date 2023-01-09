@@ -118,7 +118,11 @@ public class CurveController {
     public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                                    BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
-        if (result.hasErrors()) return "curvePoint/update";
+        if (result.hasErrors()){
+            curvePoint.setId(id);
+            model.addAttribute("curve", curvePoint);
+            return "curvePoint/update";
+        }
         // if valid call service to update Curve and return Curve list
         curvePointService.updateCurvePoint(curvePoint);
         // add redirect message

@@ -98,7 +98,11 @@ public class BidController {
     public String updateBid(@PathVariable("id") Integer id, @Valid Bid bid,
                             BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         // check required fields
-        if (result.hasErrors()) return "bidList/update";
+        if (result.hasErrors()){
+            bid.setBidListId(id);
+            model.addAttribute("bid", bid);
+            return "bidList/update";
+        }
         // if valid call service to update Bid
         bid.setBidListId(id);
         bidService.updateBid(bid);
