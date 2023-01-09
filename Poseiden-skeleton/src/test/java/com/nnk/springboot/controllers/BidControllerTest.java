@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.Bid;
-import com.nnk.springboot.domain.viewmodel.BidViewModel;
 import com.nnk.springboot.services.BidService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -71,7 +70,6 @@ public class BidControllerTest {
     @WithMockUser(roles = "ADMIN")
     @DisplayName("Add new bid successful")
     public void validateTest() throws Exception {
-        when(service.viewModelToEntity(any(BidViewModel.class))).thenReturn(bid);
         when(service.saveBid(bid)).thenReturn(bid);
 
         mockMvc.perform(post("/bidList/validate")

@@ -1,11 +1,9 @@
 package com.nnk.springboot.services;
 
 import com.nnk.springboot.domain.Bid;
-import com.nnk.springboot.domain.viewmodel.BidViewModel;
 import com.nnk.springboot.exceptions.ResourceNotFoundException;
 import com.nnk.springboot.repositories.BidRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -20,8 +18,6 @@ public class BidService {
     @Autowired
     private BidRepository bidRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
 
 
     /**
@@ -87,11 +83,4 @@ public class BidService {
         }
     }
 
-    public Bid viewModelToEntity(BidViewModel bidViewModel) {
-        return modelMapper.map(bidViewModel, Bid.class);
-    }
-
-    public BidViewModel entityToViewModel(Bid bid) {
-        return modelMapper.map(bid, BidViewModel.class);
-    }
 }
