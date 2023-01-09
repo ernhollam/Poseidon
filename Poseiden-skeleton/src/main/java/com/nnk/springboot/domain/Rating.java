@@ -1,5 +1,6 @@
 package com.nnk.springboot.domain;
 
+import com.nnk.springboot.validators.ValidNumericField;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -37,9 +35,7 @@ public class Rating {
     @Size(max = 125, message = "Maximum of {max} characters")
     @NotBlank(message = "FitchRating is mandatory")
     String  fitchRating;
-    @NotNull(message = "Order number is mandatory")
-    @Positive(message = "Must be a positive number")
-    @Max(value = Integer.MAX_VALUE, message = "Must be less than (value)")
+    @ValidNumericField
     Integer orderNumber;
 
     public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
