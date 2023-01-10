@@ -85,6 +85,22 @@ public class RatingControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    @DisplayName("Add new rating with empty order number")
+    public void validateTest_withInvalid_orderNumber() throws Exception {
+        when(service.saveRating(rating)).thenReturn(rating);
+
+        mockMvc.perform(post("/rating/validate")
+                                .with(csrf().asHeader())
+                                .param("moodysRating", rating.getMoodysRating())
+                                .param("sandPRating", rating.getSandPRating())
+                                .param("fitchRating", rating.getFitchRating())
+                                .param("orderNumber", ""))
+               .andExpect(model().hasErrors())
+               .andExpect(view().name("rating/add"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("Show update form successful")
     public void showUpdateFormIsSuccessful() throws Exception {
         when(service.getRatingById(1)).thenReturn(Optional.of(rating));

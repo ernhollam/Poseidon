@@ -87,6 +87,23 @@ public class TradeControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    @DisplayName("Add new trade with null buy quantity")
+    public void validateTest_withNull_buyQuantity() throws Exception {
+        when(service.saveTrade(trade)).thenReturn(trade);
+
+        mockMvc.perform(post("/trade/validate")
+                                .with(csrf().asHeader())
+                                .param("account", trade.getAccount())
+                                .param("type", trade.getType())
+                                .param("buyQuantity", "")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+               .andExpect(model().hasErrors())
+               .andExpect(view().name("trade/add"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("Show update form successful")
     public void showUpdateFormIsSuccessful() throws Exception {
         when(service.getTradeById(1)).thenReturn(Optional.of(trade));
