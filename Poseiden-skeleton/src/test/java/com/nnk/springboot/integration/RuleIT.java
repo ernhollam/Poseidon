@@ -1,6 +1,7 @@
-package com.nnk.springboot.repositories;
+package com.nnk.springboot.integration;
 
 import com.nnk.springboot.domain.RuleName;
+import com.nnk.springboot.repositories.RuleNameRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
-public class RuleTests {
+public class RuleIT {
 
 	@Autowired
 	private RuleNameRepository ruleNameRepository;

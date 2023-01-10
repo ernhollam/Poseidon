@@ -93,6 +93,24 @@ public class UserControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    @DisplayName("Add new user with invalid password")
+    public void validateTest_withInvalidPassword() throws Exception {
+        String invalidPassword = "abc123";
+        when(encoder.encode(anyString())).thenReturn(invalidPassword);
+        when(userService.saveUser(user)).thenReturn(user);
+
+        mockMvc.perform(post("/user/validate")
+                                .with(csrf().asHeader())
+                                .param("fullname", "My Full Name")
+                                .param("username", "username")
+                                .param("password", invalidPassword)
+                                .param("role", "ADMIN"))
+               .andExpect(model().hasErrors())
+               .andExpect(view().name("user/add"));
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     @DisplayName("Show update form successful")
     public void showUpdateFormIsSuccessful() throws Exception {
         when(userService.getUserById(any(Integer.class))).thenReturn(Optional.of(user));
